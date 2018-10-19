@@ -1,0 +1,15 @@
+.change-date {
+    display: block;
+    width: 225px;
+    height: 50px;
+    margin: auto;
+}
+
+.change-date * {
+    display: inline-block;
+}
+
+.standings-item:hover {
+    cursor: pointer;
+    background-color: #fafafa;
+}
