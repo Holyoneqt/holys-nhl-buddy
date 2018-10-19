@@ -7,6 +7,7 @@ window.onload = () => {
 };
 
 function displayStandings(standings) {
+    console.log(standings);
     for(let i = 0; i < standings.length; i++) {
         const divisionContainer = document.getElementById(`division-${i}`);
         const d = standings[i];
@@ -21,6 +22,7 @@ function displayStandings(standings) {
             const listItem = document.createElement('li');
             listItem.classList.add('w3-bar');
             listItem.classList.add('standings-item');
+            listItem.style.background = localStorage.getItem('fav-team') == t.team.id ? 'lightgreen' : '';
 
             listItem.onclick = () => {
                 window.location.href = `./team.html?id=${t.team.id}`;
@@ -29,23 +31,34 @@ function displayStandings(standings) {
             const img = document.createElement('img');
             img.src = `./images/${t.team.id}.gif`;
             img.classList.add([ 'w3-bar-item' ]);
-            img.style.width = '80px';
-            img.style.height = '50px';
+            img.style.width = '40px';
+            img.style.height = '40px';
             img.style.cssFloat = 'left';
+            img.style.padding = '8px 2px';
 
             const teamName = document.createElement('div');
             teamName.classList.add('w3-bar-item');
-            teamName.innerHTML = `${t.divisionRank}. - ${t.team.name}`;
+            let wildCard = '';
+            if (t.wildCardRank === '1') { wildCard = '(WC1)'; }
+            else if (t.wildCardRank === '2') { wildCard = '(WC2)'; }
+            teamName.innerHTML = `${t.divisionRank}. - ${t.team.name} ${wildCard}`;
 
             const record = document.createElement('div');
             record.classList.add('w3-bar-item');
             record.style.cssFloat = 'right';
             record.innerHTML = `${t.leagueRecord.wins}-${t.leagueRecord.losses}-${t.leagueRecord.ot}`;
 
+            const plusMinusNumber = t.goalsScored - t.goalsAgainst;
+            const plusMinus = document.createElement('div');
+            plusMinus.classList.add('w3-bar-item');
+            plusMinus.style.cssFloat = 'right';
+            plusMinus.style.color = plusMinusNumber < 0 ? 'red' : 'green';
+            plusMinus.innerHTML = plusMinusNumber < 0 ? plusMinusNumber.toString() : `+${plusMinusNumber}`;
 
             listItem.appendChild(img);
             listItem.appendChild(teamName);
             listItem.appendChild(record);
+            listItem.appendChild(plusMinus);
             list.appendChild(listItem);
         });
 

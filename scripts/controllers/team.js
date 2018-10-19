@@ -1,10 +1,11 @@
-let team, schedule, roster;
+let teamId, team, schedule, roster;
 
 window.onload = () => {
     const parameter = window.location.href.split('?')[1];
     if (parameter) {
         if (parameter.startsWith('id')) {
-            const teamId = parameter.substring(3);
+            teamId = parameter.substring(3);
+            element('fav-star').style.color = isFavTeam() ? 'green' : 'black';
             getTeam(teamId)
                 .then(j => team = j.teams[0])
                 .then(() => displayTeamInfo(team))
@@ -16,6 +17,16 @@ window.onload = () => {
                 .then(() => displayRoster(roster));
         }
     }
+
+    element('fav-star').onclick = () => {
+        if (isFavTeam()) {
+            localStorage.removeItem('fav-team');
+            element('fav-star').style.color = 'black';
+        } else {
+            localStorage.setItem('fav-team', teamId);
+            element('fav-star').style.color = 'green';
+        }
+    };
 };
 
 function displayTeamInfo(t) {
@@ -80,6 +91,10 @@ function getScheduleOfNext7Days(id) {
 
 function element(id) {
     return document.getElementById(id);
+}
+
+function isFavTeam() {
+    return localStorage.getItem('fav-team') === teamId;
 }
 
 function getFormatedDate(date) {
