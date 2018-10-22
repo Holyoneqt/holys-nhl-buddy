@@ -34,27 +34,28 @@ function displayGames(gameList) {
         var li = document.createElement('li');
         li.style.height = '60px';
         li.style.padding = '20px 16px';
-
+        console.log(g);
         var home = g.teams.home;
         var away = g.teams.away;
 
-        li.innerHTML = `${away.team.name} ${away.score} : ${home.score} ${home.team.name}`;
+        var text = document.createElement('span');
+        text.innerHTML = `${away.score} : ${home.score}`;
+        text.style.margin = 'auto 8px';
         
         const imgHome = document.createElement('img');
         imgHome.src = `./images/${home.team.id}.gif`;
         imgHome.classList.add([ 'w3-bar-item' ]);
         imgHome.style.width = '40px';
         imgHome.style.height = '25px';
-        imgHome.style.cssFloat = 'right';
 
         const imgAway = document.createElement('img');
         imgAway.src = `./images/${away.team.id}.gif`;
         imgAway.classList.add([ 'w3-bar-item' ]);
         imgAway.style.width = '40px';
         imgAway.style.height = '25px';
-        imgAway.style.cssFloat = 'left';
 
         li.appendChild(imgAway);
+        li.appendChild(text);
         li.appendChild(imgHome);
         gamesList.appendChild(li);
     });
