@@ -9,7 +9,12 @@
     display: inline-block;
 }
 
-.standings-item:hover {
+.hoverable-item:hover {
     cursor: pointer;
     background-color: #fafafa;
+}
+
+.expanded-score-visible {
+    display: block;
+    padding-bottom: 20px !important;
 }

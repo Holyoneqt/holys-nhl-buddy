@@ -62,6 +62,8 @@ function displayRoster(r) {
     const def = r.filter(player => player.position.type === 'Defenseman');
     const fw = r.filter(player => player.position.type === 'Forward');
 
+    console.log(r);
+
     gt.forEach(player => {
         const li = document.createElement('li');
         li.innerHTML = `#${player.jerseyNumber} - ${player.person.fullName}`;

@@ -1,9 +1,13 @@
 let divisionStandings = [];
+let leagueStandings = [];
 
 window.onload = () => {
     getStandings()
         .then(json => divisionStandings = json.records)
-        .then(() => displayStandings(divisionStandings));
+        .then(() => displayStandings(divisionStandings))
+        .then(() => leagueStandings = [ ...divisionStandings[0].teamRecords, ...divisionStandings[1].teamRecords, ...divisionStandings[2].teamRecords, ...divisionStandings[3].teamRecords ])
+        .then(() => leagueStandings.sort((a, b) => a.leagueRank - b.leagueRank))
+        .then(() => console.log(leagueStandings));
 };
 
 function displayStandings(standings) {
@@ -21,7 +25,8 @@ function displayStandings(standings) {
         d.teamRecords.forEach(t => {
             const listItem = document.createElement('li');
             listItem.classList.add('w3-bar');
-            listItem.classList.add('standings-item');
+            listItem.classList.add('hoverable-item');
+            listItem.style.fontSize = '12px';
             listItem.style.background = localStorage.getItem('fav-team') == t.team.id ? 'lightgreen' : '';
 
             listItem.onclick = () => {
@@ -46,7 +51,7 @@ function displayStandings(standings) {
             const record = document.createElement('div');
             record.classList.add('w3-bar-item');
             record.style.cssFloat = 'right';
-            record.innerHTML = `${t.leagueRecord.wins}-${t.leagueRecord.losses}-${t.leagueRecord.ot}`;
+            record.innerHTML = `${t.leagueRecord.wins}-${t.leagueRecord.losses}-${t.leagueRecord.ot} (${t.streak.streakCode})`;
 
             const plusMinusNumber = t.goalsScored - t.goalsAgainst;
             const plusMinus = document.createElement('div');
