@@ -20,9 +20,10 @@
         <a class="w3-bar-item w3-button" href="standings.html">Standings</a>
     </div>
 
-    <div class="w3-bar" style="margin-top: 10px; padding: 0 40%;">
-        <button id="displayDivisions" style="margin-right: 2px; width: calc(50% - 2px);" class="w3-bar-item w3-button w3-deep-orange">Divisions</button>
-        <button id="displayLeague" style="margin-left: 2px; width: calc(50% - 2px)" class="w3-bar-item w3-button w3-deep-orange">League</button>
+    <div class="w3-bar" style="margin-top: 10px; padding: 0 30%;">
+        <button id="displayDivisions" style="margin-right: 2px; width: calc(33.3% - 8px);" class="w3-bar-item w3-button w3-deep-orange">Divisions</button>
+        <button id="displayConferences" style="margin: auto 2px; width: calc(33.3% - 8px);" class="w3-bar-item w3-button w3-deep-orange">Conferences</button>
+        <button id="displayLeague" style="margin-left: 2px; width: calc(33.3% - 8px)" class="w3-bar-item w3-button w3-deep-orange">League</button>
     </div>
 
     <div id="divisions" class="w3-cell-row">
@@ -36,8 +37,15 @@
         </div>
     </div>
 
+    <div id="conferences" class="w3-cell-row">
+        <div id="conference-0" class="w3-container w3-cell">
+        </div>
+        <div id="conference-1" class="w3-container w3-cell">
+        </div>
+    </div>
+
     <div id="league" class="w3-cell-row">
-        <div id="league-standing" class="w3-container w3-cell">
+        <div id="league-standing" style="width: 50%" class="w3-container w3-cell">
         </div>
     </div>
 
