@@ -5,6 +5,10 @@ var date = new Date();
 date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
 var games = [];
 
+// All games of a team based on the api-call
+var gamesOfTeam = {};
+var selectedGame;
+
 window.onload = () => {
     displayDate(date.toLocaleDateString());
 
@@ -41,7 +45,10 @@ function displayGames(gameList) {
         li.style.height = '60px';
         li.style.padding = '20px 16px';
         li.classList.add('hoverable-item');
-        li.onclick = () => displayExpandedScore(li, home.team.id, away.team.id);
+        li.onclick = () => {
+            selectedGame = g;
+            displayExpandedScore(li, home.team.id, away.team.id)
+        };
 
         var text = document.createElement('span');
         text.innerHTML = `${away.score} : ${home.score}`;
@@ -101,13 +108,14 @@ function displayExpandedScore(listItem, homeId, awayId) {
         }
     }
 
-    let homeTeamGames, awayTeamGames, rivalry;
+    let homeTeamGames, awayTeamGames, rivalry, lastFive;
 
     getSchedule(homeId, SEASON_START, SEASON_END)
         .then(homeResponse => homeTeamGames = mapGames(homeResponse, homeId))
         .then(() => getSchedule(awayId, SEASON_START, SEASON_END))
         .then(awayResponse => awayTeamGames = mapGames(awayResponse, awayId))
         .then(() => rivalry = getRivalry(awayTeamGames, homeTeamGames))
+        .then(() => getLastFive(homeId))
         .then(() => {
             const detailTable = document.createElement('table');
             detailTable.style.display = 'inline-block';
@@ -183,6 +191,9 @@ function mapGames(apiResponse, teamId) {
     apiResponse.dates.forEach(date => {
         date.games.forEach(game => allGames.push(game));
     });
+
+    gamesOfTeam[teamId] = allGames;
+
     const finishedGames = allGames.filter(game => game.status.detailedState === 'Final');
     const homeGames = finishedGames.filter(game => game.teams.home.team.id === teamId);
     const wonAtHome = homeGames.filter(game => game.teams.home.score > game.teams.away.score);
@@ -221,8 +232,25 @@ function getRivalry(away, home) {
             score: game.teams.home.score
         } ,
     }));
-    console.log(rivalry);
     return rivalry;
+}
+
+function getLastFive(teamId) {
+    const allGames = gamesOfTeam[teamId];
+    let lastFive = [];
+    for (let i = 0; i < allGames.length; i++) {
+        const game = allGames[i];
+        if (game.gameDate === selectedGame.gameDate) {
+            lastFive = allGames.slice(0, i).slice(-5);
+        }
+    }
+
+    const lastFiveSummary = [];
+    lastFive.forEach(game => {
+        lastFiveSummary.push({
+
+        });
+    });
 }
 
 function avgGoals(type, games) {
