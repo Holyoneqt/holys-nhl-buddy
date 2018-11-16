@@ -1,13 +1,13 @@
 const SEASON_START = '2018-10-03';
 const SEASON_END = '2019-04-06';
 
-var date = new Date();
+const date = new Date();
 date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
-var games = [];
+let games: NhlApi.Schedule.Game[] = [];
 
 // All games of a team based on the api-call
-var gamesOfTeam = {};
-var selectedGame;
+let gamesOfTeam: { [id: number]: NhlApi.Schedule.Game[] } = {};
+let selectedGame: NhlApi.Schedule.Game;
 
 window.onload = () => {
     displayDate(date.toLocaleDateString());
@@ -28,13 +28,13 @@ window.onload = () => {
 
 };
 
-function getScoresOfDay(date) {
+function getScoresOfDay(date: Date) {
     getScores(getFormatedDate(date), getFormatedDate(date))
         .then(j => games = j.dates[0].games)
         .then(() => displayGames(games));
 }
 
-function displayGames(gameList) {
+function displayGames(gameList: NhlApi.Schedule.Game[]) {
     var gamesList = document.getElementById('games');
     gamesList.innerHTML = '';
     gameList.forEach(g => {
@@ -56,13 +56,13 @@ function displayGames(gameList) {
 
         const imgHome = document.createElement('img');
         imgHome.src = `./images/${home.team.id}.gif`;
-        imgHome.classList.add(['w3-bar-item']);
+        imgHome.classList.add('w3-bar-item');
         imgHome.style.width = '40px';
         imgHome.style.height = '25px';
 
         const imgAway = document.createElement('img');
         imgAway.src = `./images/${away.team.id}.gif`;
-        imgAway.classList.add(['w3-bar-item']);
+        imgAway.classList.add('w3-bar-item');
         imgAway.style.width = '40px';
         imgAway.style.height = '25px';
 
@@ -73,11 +73,11 @@ function displayGames(gameList) {
     });
 }
 
-function displayDate(date) {
+function displayDate(date: string) {
     document.getElementById('date').innerHTML = date;
 }
 
-function getFormatedDate(date) {
+function getFormatedDate(date: Date) {
     var month = (date.getMonth() + 1).toString();
     if (month.length === 1) {
         month = '0' + month;
@@ -91,7 +91,7 @@ function getFormatedDate(date) {
     return `${year}-${month}-${day}`;
 }
 
-function displayExpandedScore(listItem, homeId, awayId) {
+function displayExpandedScore(listItem: HTMLLIElement, homeId: number, awayId: number) {
     const expandedPanel = document.createElement('li');
     expandedPanel.classList.add('expanded-score-visible');
     expandedPanel.innerHTML = 'Loading...';
@@ -108,21 +108,20 @@ function displayExpandedScore(listItem, homeId, awayId) {
         }
     }
 
-    let homeTeamGames, awayTeamGames, rivalry, lastFive;
+    let homeTeamGames: ScoresModel.MappedGames, awayTeamGames: ScoresModel.MappedGames, rivalry: ScoresModel.RivalryGame[], lastFive;
 
     getSchedule(homeId, SEASON_START, SEASON_END)
         .then(homeResponse => homeTeamGames = mapGames(homeResponse, homeId))
         .then(() => getSchedule(awayId, SEASON_START, SEASON_END))
         .then(awayResponse => awayTeamGames = mapGames(awayResponse, awayId))
         .then(() => rivalry = getRivalry(awayTeamGames, homeTeamGames))
-        .then(() => getLastFive(homeId))
         .then(() => {
             const detailTable = document.createElement('table');
             detailTable.style.display = 'inline-block';
             
             const headerRow = document.createElement('tr');
             const headerRowTitle = document.createElement('th');
-            headerRowTitle.colSpan = '3';
+            headerRowTitle.colSpan = 3;
             headerRowTitle.innerHTML = 'Detailed Stats';
             headerRow.appendChild(headerRowTitle);
             detailTable.appendChild(headerRow);
@@ -132,9 +131,10 @@ function displayExpandedScore(listItem, homeId, awayId) {
             detailTable.appendChild(createTableRow(3, [awayTeamGames.away.played, 'Games Played', homeTeamGames.home.played], 'td'));
             detailTable.appendChild(createTableRow(3, [`${awayTeamGames.away.won} (${awayTeamGames.away.winPercent}%)`, 'Games Won', `${homeTeamGames.home.won} (${homeTeamGames.home.winPercent}%)`], 'td'));
             detailTable.appendChild(createTableRow(3, [awayTeamGames.away.avgGoals, 'Avg. Goals', homeTeamGames.home.avgGoals], 'td'));
+            detailTable.appendChild(createTableRow(3, [getLast(5, awayId), 'Last 5', getLast(5, homeId)], 'td'));
             
             const sepereatorRow = createTableRow(3, ['', 'Direct Encounters', ''], 'th')
-            sepereatorRow.children[1].style.paddingTop = '18px';
+            // sepereatorRow.children[1].style.paddingTop = '18px';
             detailTable.appendChild(sepereatorRow);
             if (rivalry.length === 0) {
                 detailTable.appendChild(createTableRow(3, ['', 'None', ''], 'td'));
@@ -150,7 +150,7 @@ function displayExpandedScore(listItem, homeId, awayId) {
 
                 const imgAway = document.createElement('img');
                 imgAway.src = `./images/${rivalryGame.away.teamId}.gif`;
-                imgAway.classList.add(['w3-bar-item']);
+                imgAway.classList.add('w3-bar-item');
                 imgAway.style.width = '40px';
                 imgAway.style.height = '25px';
 
@@ -166,7 +166,7 @@ function displayExpandedScore(listItem, homeId, awayId) {
 
                 const imgHome = document.createElement('img');
                 imgHome.src = `./images/${rivalryGame.home.teamId}.gif`;
-                imgHome.classList.add(['w3-bar-item']);
+                imgHome.classList.add('w3-bar-item');
                 imgHome.style.width = '40px';
                 imgHome.style.height = '25px';
 
@@ -186,8 +186,8 @@ function displayExpandedScore(listItem, homeId, awayId) {
         });
 }
 
-function mapGames(apiResponse, teamId) {
-    const allGames = [];
+function mapGames(apiResponse: NhlApi.Schedule.Response, teamId: number): ScoresModel.MappedGames {
+    const allGames: NhlApi.Schedule.Game[] = [];
     apiResponse.dates.forEach(date => {
         date.games.forEach(game => allGames.push(game));
     });
@@ -199,7 +199,7 @@ function mapGames(apiResponse, teamId) {
     const wonAtHome = homeGames.filter(game => game.teams.home.score > game.teams.away.score);
     const awayGames = finishedGames.filter(game => game.teams.away.team.id === teamId);
     const wonAway = awayGames.filter(game => game.teams.home.score < game.teams.away.score);
-    let mapped = {
+    let mapped: ScoresModel.MappedGames = {
         teamName: homeGames[0].teams.home.team.name,
         finishedGames: finishedGames,
         home: {
@@ -219,9 +219,9 @@ function mapGames(apiResponse, teamId) {
     return mapped;
 }
 
-function getRivalry(away, home) {
+function getRivalry(away: ScoresModel.MappedGames, home: ScoresModel.MappedGames): ScoresModel.RivalryGame[] {
     const rGames = away.finishedGames.filter(game => game.teams.home.team.name === home.teamName || game.teams.away.team.name === home.teamName);
-    const rivalry = [];
+    const rivalry: ScoresModel.RivalryGame[] = [];
     rGames.forEach(game => rivalry.push({
         away:{
             teamId: game.teams.away.team.id,
@@ -230,30 +230,27 @@ function getRivalry(away, home) {
         home:{
             teamId: game.teams.home.team.id,
             score: game.teams.home.score
-        } ,
+        }
     }));
     return rivalry;
 }
 
-function getLastFive(teamId) {
-    const allGames = gamesOfTeam[teamId];
-    let lastFive = [];
-    for (let i = 0; i < allGames.length; i++) {
-        const game = allGames[i];
-        if (game.gameDate === selectedGame.gameDate) {
-            lastFive = allGames.slice(0, i).slice(-5);
+function getLast(numGames: number, teamId: number): string {
+    const lastTen = gamesOfTeam[teamId].filter(game => game.status.detailedState === 'Final').slice(-numGames);
+    let w = 0, l = 0;
+    lastTen.forEach(g => {
+        const teamPropName: 'home' | 'away' = (g.teams.home.team.id === teamId) ? 'home' : 'away';
+        const otherPropName: 'home' | 'away' = teamPropName === 'home' ? 'away' : 'home';
+        if (g.teams[teamPropName].score > g.teams[otherPropName].score) {
+            w++
+        } else {
+            l++;
         }
-    }
-
-    const lastFiveSummary = [];
-    lastFive.forEach(game => {
-        lastFiveSummary.push({
-
-        });
     });
+    return `${w}-${l}`;
 }
 
-function avgGoals(type, games) {
+function avgGoals(type: 'home' | 'away', games: NhlApi.Schedule.Game[]) {
     let goals = 0;
     if (type === 'home') {
         games.forEach(game => goals += game.teams.home.score);
@@ -263,11 +260,11 @@ function avgGoals(type, games) {
     return round(goals / games.length);
 }
 
-function round(number) {
-    return Math.round(number * 10) / 10;
+function round(num: number) {
+    return Math.round(num * 10) / 10;
 }
 
-function createTableRow(numData, dataArray, thOrTd) {
+function createTableRow(numData: number, dataArray: any[], thOrTd: 'th' | 'td') {
     const tr = document.createElement('tr');
     for (let i = 0; i < numData; i++) {
         const td = document.createElement(thOrTd);
