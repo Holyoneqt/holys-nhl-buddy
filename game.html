@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Holy's NHL Buddy</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <script src="dist/nhl.api.js"></script>
+    <script src="dist/controllers/game.controller.js"></script>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+
+<body>
+    <div class="w3-bar w3-black">
+        <a class="w3-bar-item w3-button" href="index.html">Condensed Games</a>
+        <a class="w3-bar-item w3-button" href="scores.html">Scores</a>
+        <a class="w3-bar-item w3-button" href="standings.html">Standings</a>
+    </div>
+
+    <p id="loading" style="text-align: center">Loading...</p>
+
+    <table id="details" style="margin-top: 5%; text-align: center; display: none" class="w3-table w3-centered w3-border w3-bordered">
+        <tr>
+            <th id="awayTeamName"></th>
+            <th>@</th>
+            <th id="homeTeamName"></th>
+        </tr>
+    </table>
+
+</body>
+
+</html>

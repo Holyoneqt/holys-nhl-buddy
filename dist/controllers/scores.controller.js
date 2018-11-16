@@ -103,17 +103,17 @@ function displayExpandedScore(listItem, homeId, awayId) {
         headerRowTitle.innerHTML = 'Detailed Stats';
         headerRow.appendChild(headerRowTitle);
         detailTable.appendChild(headerRow);
-        detailTable.appendChild(createTableRow(3, ['Away', '', 'Home'], 'th'));
-        detailTable.appendChild(createTableRow(3, [awayTeamGames.teamName, '', homeTeamGames.teamName], 'th'));
-        detailTable.appendChild(createTableRow(3, [awayTeamGames.away.played, 'Games Played', homeTeamGames.home.played], 'td'));
-        detailTable.appendChild(createTableRow(3, [`${awayTeamGames.away.won} (${awayTeamGames.away.winPercent}%)`, 'Games Won', `${homeTeamGames.home.won} (${homeTeamGames.home.winPercent}%)`], 'td'));
-        detailTable.appendChild(createTableRow(3, [awayTeamGames.away.avgGoals, 'Avg. Goals', homeTeamGames.home.avgGoals], 'td'));
-        detailTable.appendChild(createTableRow(3, [getLast(5, awayId), 'Last 5', getLast(5, homeId)], 'td'));
-        const sepereatorRow = createTableRow(3, ['', 'Direct Encounters', ''], 'th');
+        detailTable.appendChild(createTr(3, ['Away', '', 'Home'], 'th'));
+        detailTable.appendChild(createTr(3, [awayTeamGames.teamName, '', homeTeamGames.teamName], 'th'));
+        detailTable.appendChild(createTr(3, [awayTeamGames.away.played, 'Games Played', homeTeamGames.home.played], 'td'));
+        detailTable.appendChild(createTr(3, [`${awayTeamGames.away.won} (${awayTeamGames.away.winPercent}%)`, 'Games Won', `${homeTeamGames.home.won} (${homeTeamGames.home.winPercent}%)`], 'td'));
+        detailTable.appendChild(createTr(3, [awayTeamGames.away.avgGoals, 'Avg. Goals', homeTeamGames.home.avgGoals], 'td'));
+        detailTable.appendChild(createTr(3, [getLast(5, awayId), 'Last 5', getLast(5, homeId)], 'td'));
+        const sepereatorRow = createTr(3, ['', 'Direct Encounters', ''], 'th');
         // sepereatorRow.children[1].style.paddingTop = '18px';
         detailTable.appendChild(sepereatorRow);
         if (rivalry.length === 0) {
-            detailTable.appendChild(createTableRow(3, ['', 'None', ''], 'td'));
+            detailTable.appendChild(createTr(3, ['', 'None', ''], 'td'));
         }
         rivalry.forEach(rivalryGame => {
             const tr = document.createElement('tr');
@@ -145,6 +145,16 @@ function displayExpandedScore(listItem, homeId, awayId) {
             tr.appendChild(homeTd);
             detailTable.appendChild(tr);
         });
+        const viewDetailsTr = document.createElement('tr');
+        const viewDetailsTd = document.createElement('td');
+        viewDetailsTd.colSpan = 3;
+        const viewDetailsButton = document.createElement('button');
+        viewDetailsButton.innerHTML = 'View all Details';
+        viewDetailsButton.classList.add('w3-btn', 'w3-small', 'w3-light-green');
+        viewDetailsButton.onclick = () => window.location.href = `./game.html?id=${selectedGame.gamePk}`;
+        viewDetailsTd.appendChild(viewDetailsButton);
+        viewDetailsTr.appendChild(viewDetailsTd);
+        detailTable.appendChild(viewDetailsTr);
         expandedPanel.innerHTML = '';
         expandedPanel.appendChild(detailTable);
     });
@@ -221,7 +231,7 @@ function avgGoals(type, games) {
 function round(num) {
     return Math.round(num * 10) / 10;
 }
-function createTableRow(numData, dataArray, thOrTd) {
+function createTr(numData, dataArray, thOrTd) {
     const tr = document.createElement('tr');
     for (let i = 0; i < numData; i++) {
         const td = document.createElement(thOrTd);

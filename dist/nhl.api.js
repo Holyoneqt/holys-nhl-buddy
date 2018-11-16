@@ -3,6 +3,7 @@ const API_URL = 'https://statsapi.web.nhl.com';
 const STANDINGS = `${API_URL}/api/v1/standings`;
 const TEAMS = `${API_URL}/api/v1/teams`;
 const SCHEDULE = `${API_URL}/api/v1/schedule`;
+const GAME = `${API_URL}/api/v1/game`;
 function getStandings() {
     return fetch(STANDINGS)
         .then(response => response.json())
@@ -25,6 +26,11 @@ function getSchedule(id, start, end) {
 }
 function getRoster(id) {
     return fetch(`${TEAMS}/${id}?expand=team.roster`)
+        .then(response => response.json())
+        .catch(err => console.error(err));
+}
+function getGame(id) {
+    return fetch(`${GAME}/${id}/feed/live`)
         .then(response => response.json())
         .catch(err => console.error(err));
 }
