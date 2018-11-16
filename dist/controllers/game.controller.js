@@ -25,8 +25,10 @@ function fetchData(gameId) {
         .then(response => homeTeam = response.teams[0]);
 }
 function displayMetaData() {
-    const detailsTable = document.getElementById('details');
-    detailsTable.style.display = 'table';
+    document.getElementById('details').style.display = 'block';
+    document.getElementById('away-logo').src = `./images/${awayTeam.id}.gif`;
+    document.getElementById('home-logo').src = `./images/${homeTeam.id}.gif`;
+    const detailsTable = document.getElementById('details-table');
     document.getElementById('loading').style.display = 'none';
     const awayTeamStats = awayTeam.teamStats[0].splits[0].stat, homeTeamStats = homeTeam.teamStats[0].splits[0].stat;
     detailsTable.appendChild(createTr(['Regular Season'], false, 1, 'th', 3));

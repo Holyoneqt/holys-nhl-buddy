@@ -1,0 +1,19 @@
+#details-table tr td:first-child {
+    width: 33.3%;
+}
+
+#details-table tr td:last-child {
+    width: 33.3%;
+}
+
+#away-logo {
+    margin-right: 5%;
+}
+
+#home-logo {
+    margin-left: 5%;
+}
+
+#stat-selection button {
+    width: 33.3%;
+}

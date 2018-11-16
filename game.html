@@ -10,7 +10,7 @@
     <script src="dist/controllers/game.controller.js"></script>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <link rel="stylesheet" type="text/css" href="styles/game.style.css">
 </head>
 
 <body>
@@ -22,13 +22,26 @@
 
     <p id="loading" style="text-align: center">Loading...</p>
 
-    <table id="details" style="margin-top: 5%; text-align: center; display: none" class="w3-table w3-centered w3-border w3-bordered">
-        <tr>
-            <th id="awayTeamName"></th>
-            <th>@</th>
-            <th id="homeTeamName"></th>
-        </tr>
-    </table>
+    <div id="details" style="display: none;">
+        <div class="w3-center" style="margin: 2% 0">
+                <img id="away-logo" />
+                <img id="home-logo" />
+        </div>
+
+        <div id="stat-selection" class="w3-bar w3-orange">
+            <button class="w3-bar-item w3-button">Stats</button>
+            <button class="w3-bar-item w3-button">Last 10</button>
+            <button class="w3-bar-item w3-button">vs.</button>
+        </div>
+
+        <table id="details-table" style="text-align: center;" class="w3-table w3-centered w3-border w3-bordered">
+            <tr>
+                <th id="awayTeamName"></th>
+                <th>@</th>
+                <th id="homeTeamName"></th>
+            </tr>
+        </table>
+    </div>
 
 </body>
 
