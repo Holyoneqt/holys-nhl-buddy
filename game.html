@@ -8,6 +8,7 @@
 
     <script src="dist/nhl.api.js"></script>
     <script src="dist/controllers/game.controller.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" type="text/css" href="styles/game.style.css">
@@ -29,17 +30,12 @@
         </div>
 
         <div id="stat-selection" class="w3-bar w3-orange">
-            <button class="w3-bar-item w3-button">Stats</button>
-            <button class="w3-bar-item w3-button">Last 10</button>
+            <button class="w3-bar-item w3-button" onclick="displayStats()">Stats</button>
+            <button class="w3-bar-item w3-button" onclick="displayLastTen()">Last 10</button>
             <button class="w3-bar-item w3-button">vs.</button>
         </div>
 
         <table id="details-table" style="text-align: center;" class="w3-table w3-centered w3-border w3-bordered">
-            <tr>
-                <th id="awayTeamName"></th>
-                <th>@</th>
-                <th id="homeTeamName"></th>
-            </tr>
         </table>
     </div>
 

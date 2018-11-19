@@ -1,6 +1,3 @@
-const SEASON_START = '2018-10-03';
-const SEASON_END = '2019-04-06';
-
 const date = new Date();
 date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
 let games: NhlApi.Schedule.Game[] = [];
