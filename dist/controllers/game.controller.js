@@ -148,19 +148,19 @@ function createPointsCanvasTr(awayGames, homeGames) {
             datasets: [{
                     label: awayTeam.teamName,
                     backgroundColor: 'rgba(0, 0, 0, 0)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: awayGames.map(g => getTeamFromGame(g, awayTeam.id).leagueRecord.wins * 2),
+                    borderColor: TEAM_COLORS[awayTeam.name].away,
+                    data: awayGames.map(g => getTeamFromGame(g, awayTeam.id).leagueRecord.wins),
                     lineTension: 0,
                 }, {
                     label: homeTeam.teamName,
                     backgroundColor: 'rgba(0, 0, 0, 0)',
-                    borderColor: 'rgb(0, 99, 132)',
-                    data: homeGames.map(g => getTeamFromGame(g, homeTeam.id).leagueRecord.wins * 2),
+                    borderColor: TEAM_COLORS[homeTeam.name].home,
+                    data: homeGames.map(g => getTeamFromGame(g, homeTeam.id).leagueRecord.wins),
                     lineTension: 0,
                 }]
         },
         options: {
-            title: { text: 'Points over last 10 Games', display: true }
+            title: { text: 'Wins total (Last 10 Games)', display: true }
         }
     });
     return tr;
@@ -179,20 +179,28 @@ function createGoalsScoredCanvasTr(awayGames, homeGames) {
                     label: awayTeam.teamName,
                     backgroundColor: 'rgba(0, 0, 0, 0)',
                     borderColor: TEAM_COLORS[awayTeam.name].away,
-                    data: awayGames.map(g => getTeamFromGame(g, awayTeam.id).score),
+                    data: awayGames.map(g => getGoalDiff(g, awayTeam.id)),
                     lineTension: 0,
                 }, {
                     label: homeTeam.teamName,
                     backgroundColor: 'rgba(0, 0, 0, 0)',
                     borderColor: TEAM_COLORS[homeTeam.name].home,
-                    data: homeGames.map(g => getTeamFromGame(g, homeTeam.id).score),
+                    data: homeGames.map(g => getGoalDiff(g, homeTeam.id)),
                     lineTension: 0,
                 }]
         },
         options: {
-            title: { text: 'Goals scored in last 10 Games', display: true }
+            title: { text: 'Goal diff. (Last 10 Games)', display: true }
         }
     });
     return tr;
+}
+function getGoalDiff(game, teamId) {
+    if (game.teams.away.team.id === teamId) {
+        return game.teams.away.score - game.teams.home.score;
+    }
+    else {
+        return game.teams.home.score - game.teams.away.score;
+    }
 }
 //# sourceMappingURL=game.controller.js.map
