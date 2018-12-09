@@ -71,24 +71,26 @@ function displayLastTen() {
     const detailsTable = document.getElementById('details-table');
     document.getElementById('loading').style.display = 'none';
 
-    const lastTenAway = allAwayGames.filter(date => date.games[0].status.detailedState === 'Final').splice(-10).map(date => date.games[0]);
-    const lastTenHome = allHomeGames.filter(g => g.games[0].status.detailedState === 'Final').splice(-10).map(date => date.games[0]);
-    const lastFiveAway = [...lastTenAway].splice(-5);
-    const lastFiveHome = [...lastTenHome].splice(-5);
-    console.log(lastTenAway, lastTenHome);
+    const tenDaysAgo = new Date(new Date().setTime(new Date().getTime() - (1000 * 60 * 60 * 24 * 14)));
+    console.log(tenDaysAgo);
+    const lastTenDaysAway = allAwayGames.filter(date => date.games[0].status.detailedState === 'Final').map(date => date.games[0]).filter(game => new Date(game.gameDate).getTime() > tenDaysAgo.getTime());
+    const lastTenDaysHome = allHomeGames.filter(g => g.games[0].status.detailedState === 'Final').map(date => date.games[0]).filter(game => new Date(game.gameDate).getTime() > tenDaysAgo.getTime());
+    const lastFiveAway = [...lastTenDaysAway].splice(-5);
+    const lastFiveHome = [...lastTenDaysHome].splice(-5);
 
     detailsTable.innerHTML = '';
     detailsTable.appendChild(createTr([awayTeam.abbreviation, '@', homeTeam.abbreviation], false, 3, 'th'));
-    detailsTable.appendChild(createTr(['Last 10 Games'], false, 1, 'th', 3));
-    detailsTable.appendChild(createTr([getRecord(lastTenAway, awayTeam.id), 'Record', getRecord(lastTenHome, homeTeam.id)], false));
+    detailsTable.appendChild(createTr(['Past 2 Weeks'], false, 1, 'th', 3));
+    detailsTable.appendChild(createTr([getRecord(lastTenDaysAway, awayTeam.id), 'Record', getRecord(lastTenDaysHome, homeTeam.id)], false));
 
-    const lastFiveTr = createTr(['','Last 5 Record',''], false);
+    const lastFiveTr = createTr(['', 'Last 5 Record', ''], false);
+    lastFiveTr.classList.add('last-five')
     lastFiveTr.children[0].appendChild(getLastFiveGamesStreak(lastFiveAway, awayTeam.id));
     lastFiveTr.children[2].appendChild(getLastFiveGamesStreak(lastFiveHome, homeTeam.id));
     detailsTable.appendChild(lastFiveTr);
 
-    detailsTable.appendChild(createPointsCanvasTr(lastTenAway, lastTenHome));
-    detailsTable.appendChild(createGoalsScoredCanvasTr(lastTenAway, lastTenHome));
+    // detailsTable.appendChild(createPointsCanvasTr(lastTenDaysAway, lastTenDaysHome));
+    detailsTable.appendChild(createGoalsScoredCanvasTr(lastTenDaysAway, lastTenDaysHome));
 
 }
 
@@ -199,27 +201,29 @@ function createPointsCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames: NhlA
 
 function createGoalsScoredCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames: NhlApi.Schedule.Game[]) {
     const tr = createTr([''], false, 1, 'td', 3);
+    let firstDate = new Date(awayGames[0].gameDate).getTime() > new Date(homeGames[0].gameDate).getTime() ? new Date(homeGames[0].gameDate) : new Date(homeGames[0].gameDate);
+    var labels = [];
+    while (firstDate.getTime() <= new Date().getTime()) {
+        labels.push(new Date(firstDate));
+        firstDate.setTime(firstDate.getTime() + (1000 * 60 * 60 * 24));
+    }
 
     var canvas = document.createElement('canvas');
     canvas.style.height = '150px';
     canvas.style.width = '100%';
     tr.children[0].appendChild(canvas);
     var chart = new Chart(canvas.getContext('2d'), {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: new Array(10),
+            labels: labels.map(d => d.toLocaleDateString('ch-de').slice(0, -5)),
             datasets: [{
                 label: awayTeam.teamName,
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-                borderColor: TEAM_COLORS[awayTeam.name].away,
-                data: awayGames.map(g => getGoalDiff(g, awayTeam.id)),
-                lineTension: 0,
-            },{
+                backgroundColor: TEAM_COLORS[awayTeam.name].away,
+                data: getGameData(awayTeam.id, awayGames, labels),
+            }, {
                 label: homeTeam.teamName,
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-                borderColor: TEAM_COLORS[homeTeam.name].home,
-                data: homeGames.map(g => getGoalDiff(g, homeTeam.id)),
-                lineTension: 0,
+                backgroundColor: TEAM_COLORS[homeTeam.name].home,
+                data: getGameData(homeTeam.id, homeGames, labels),
             }]
         },
         options: {
@@ -227,6 +231,20 @@ function createGoalsScoredCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames:
         }
     });
     return tr;
+}
+
+function getGameData(teamId: number, games: NhlApi.Schedule.Game[], dateRange: Date[]): number[] {
+    const gameData: any[] = [];
+    const returnData: number[] = [];
+    dateRange.forEach(date => {
+        const gameDay = games.find(g => `${new Date(g.gameDate).getDate()}-${new Date(g.gameDate).getMonth()}` === `${date.getDate()}-${date.getMonth()}`)
+        gameDay ? gameData.push(gameDay) : gameData.push(undefined);
+    }); 
+
+
+    gameData.forEach(g => g ? returnData.push(getGoalDiff(g, teamId)) : returnData.push(0));
+
+    return returnData;
 }
 
 function getGoalDiff(game: NhlApi.Schedule.Game, teamId: number) {

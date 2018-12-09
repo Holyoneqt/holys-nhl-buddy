@@ -16,6 +16,7 @@
 
 #stat-selection button {
     width: 33.3%;
+    font-size: 12px;
 }
 
 .box {
@@ -27,12 +28,17 @@
     font-family: 'Consolas';
     text-align: center;
     margin: 2px;
-  }
+}
   
-  .box-win {
+
+.box-win {
     background-color: #1fd152;
-  }
+}
   
-  .box-loss {
+.box-loss {
     background-color: #e53434;
-  }
+}
+
+.last-five td {
+    padding: 8px 0;
+}
