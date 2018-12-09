@@ -17,3 +17,22 @@
 #stat-selection button {
     width: 33.3%;
 }
+
+.box {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    padding: 2px 0;
+    font-size: 10px;
+    font-family: 'Consolas';
+    text-align: center;
+    margin: 2px;
+  }
+  
+  .box-win {
+    background-color: #1fd152;
+  }
+  
+  .box-loss {
+    background-color: #e53434;
+  }

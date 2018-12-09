@@ -81,13 +81,18 @@ function displayLastTen() {
     detailsTable.appendChild(createTr([awayTeam.abbreviation, '@', homeTeam.abbreviation], false, 3, 'th'));
     detailsTable.appendChild(createTr(['Last 10 Games'], false, 1, 'th', 3));
     detailsTable.appendChild(createTr([getRecord(lastTenAway, awayTeam.id), 'Record', getRecord(lastTenHome, homeTeam.id)], false));
-    detailsTable.appendChild(createTr([getRecordAsString(lastFiveAway, awayTeam.id), 'Last 5 Record', getRecordAsString(lastFiveHome, homeTeam.id)], false));
+
+    const lastFiveTr = createTr(['','Last 5 Record',''], false);
+    lastFiveTr.children[0].appendChild(getLastFiveGamesStreak(lastFiveAway, awayTeam.id));
+    lastFiveTr.children[2].appendChild(getLastFiveGamesStreak(lastFiveHome, homeTeam.id));
+    detailsTable.appendChild(lastFiveTr);
+
     detailsTable.appendChild(createPointsCanvasTr(lastTenAway, lastTenHome));
     detailsTable.appendChild(createGoalsScoredCanvasTr(lastTenAway, lastTenHome));
 
 }
 
-function createTr(dataArray: any[], highlight: boolean = true, numData: number = 3, type: 'th' | 'td' = 'td', colspan?: number) {
+function createTr(dataArray: any[], highlight: boolean = true, numData: number = 3, type: 'th' | 'td' = 'td', colspan?: number): HTMLTableRowElement {
     const tr = document.createElement('tr');
 
     for (let i = 0; i < numData; i++) {
@@ -128,16 +133,31 @@ function getRecord(iterable: NhlApi.Schedule.Game[], teamId: number): string {
     return `${w}-${l}`;
 }
 
-function getRecordAsString(iterable: NhlApi.Schedule.Game[], teamId: number): string {
-    let returnValue = '';
+function getLastFiveGamesStreak(iterable: NhlApi.Schedule.Game[], teamId: number): HTMLDivElement {
+    const container = document.createElement('div');
     iterable.forEach(g => {
+        const box = document.createElement('div');
+        box.classList.add('box');
         if (g.teams.away.team.id === teamId) {
-            returnValue += (g.teams.away.score > g.teams.home.score) ? 'W-' : 'L-';
+            if (g.teams.away.score > g.teams.home.score) {
+                box.classList.add('box-win');
+                box.innerHTML = 'W';
+            } else {
+                box.classList.add('box-loss');
+                box.innerHTML = 'L';
+            }
         } else {
-            returnValue += (g.teams.away.score < g.teams.home.score) ? 'W-' : 'L-';
+            if (g.teams.away.score < g.teams.home.score) {
+                box.classList.add('box-win');
+                box.innerHTML = 'W';
+            } else {
+                box.classList.add('box-loss');
+                box.innerHTML = 'L';
+            }
         }
+        container.appendChild(box);
     });
-    return returnValue.substring(0, returnValue.length - 1);
+    return container;
 }
 
 function getTeamFromGame(game: NhlApi.Schedule.Game, teamId: number): NhlApi.Schedule.Away | NhlApi.Schedule.Home {
