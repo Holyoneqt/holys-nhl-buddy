@@ -1,3 +1,18 @@
+.core--loading-icon {
+    display: block;
+}
+.core--loading-icon img {
+    display: block;
+    margin: auto;
+    width: 64px;
+    height: 64px;
+}
+.core--page-centered {
+    position: absolute;
+    top: 50%;
+    left: calc(50% - (64px / 2));
+}
+
 .change-date {
     display: block;
     width: 225px;

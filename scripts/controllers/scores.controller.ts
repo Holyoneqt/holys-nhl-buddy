@@ -91,7 +91,7 @@ function getFormatedDate(date: Date) {
 function displayExpandedScore(listItem: HTMLLIElement, homeId: number, awayId: number) {
     const expandedPanel = document.createElement('li');
     expandedPanel.classList.add('expanded-score-visible');
-    expandedPanel.innerHTML = 'Loading...';
+    expandedPanel.appendChild(getLoadingIcon());
 
     if (document.getElementsByClassName('expanded-score-visible').length > 0) {
         document.getElementsByClassName('expanded-score-visible')[0].remove();

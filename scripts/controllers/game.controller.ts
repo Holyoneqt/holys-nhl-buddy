@@ -5,7 +5,8 @@ let allAwayGames: NhlApi.Schedule.Date[];
 let allHomeGames: NhlApi.Schedule.Date[];
 
 window.onload = () => {
-    document.body.appendChild(getLoadingIcon());
+    document.body.appendChild(getLoadingIcon(true));
+
     const parameter = window.location.href.split('?')[1];
     if (parameter) {
         if (parameter.startsWith('id')) {
@@ -15,7 +16,8 @@ window.onload = () => {
                     console.log(awayTeam);
                     console.log(homeTeam);
                 })
-                .then(() => displayMetaData());
+                .then(() => displayMetaData())
+                .then(() => removeLoadingIcon());
         }
     }
 };
@@ -44,7 +46,6 @@ function displayMetaData(): void {
 
 function displayStats() {
     const detailsTable = document.getElementById('details-table');
-    document.getElementById('loading').style.display = 'none';
 
     const awayTeamStats = awayTeam.teamStats[0].splits[0].stat, homeTeamStats = homeTeam.teamStats[0].splits[0].stat;
 
@@ -70,7 +71,6 @@ function displayStats() {
 
 function displayLastTen() {
     const detailsTable = document.getElementById('details-table');
-    document.getElementById('loading').style.display = 'none';
 
     const twoWeeksAgo = new Date(new Date().setTime(new Date().getTime() - (1000 * 60 * 60 * 24 * 14)));
     const oneWeekAgo = new Date(new Date().setTime(new Date().getTime() - (1000 * 60 * 60 * 24 * 7)))
