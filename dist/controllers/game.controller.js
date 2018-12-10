@@ -5,6 +5,7 @@ let homeTeam;
 let allAwayGames;
 let allHomeGames;
 window.onload = () => {
+    document.body.appendChild(getLoadingIcon());
     const parameter = window.location.href.split('?')[1];
     if (parameter) {
         if (parameter.startsWith('id')) {
