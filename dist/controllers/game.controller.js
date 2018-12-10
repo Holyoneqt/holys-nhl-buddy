@@ -63,23 +63,24 @@ function displayStats() {
 function displayLastTen() {
     const detailsTable = document.getElementById('details-table');
     document.getElementById('loading').style.display = 'none';
-    const tenDaysAgo = new Date(new Date().setTime(new Date().getTime() - (1000 * 60 * 60 * 24 * 14)));
-    console.log(tenDaysAgo);
-    const lastTenDaysAway = allAwayGames.filter(date => date.games[0].status.detailedState === 'Final').map(date => date.games[0]).filter(game => new Date(game.gameDate).getTime() > tenDaysAgo.getTime());
-    const lastTenDaysHome = allHomeGames.filter(g => g.games[0].status.detailedState === 'Final').map(date => date.games[0]).filter(game => new Date(game.gameDate).getTime() > tenDaysAgo.getTime());
-    const lastFiveAway = [...lastTenDaysAway].splice(-5);
-    const lastFiveHome = [...lastTenDaysHome].splice(-5);
+    const twoWeeksAgo = new Date(new Date().setTime(new Date().getTime() - (1000 * 60 * 60 * 24 * 14)));
+    const oneWeekAgo = new Date(new Date().setTime(new Date().getTime() - (1000 * 60 * 60 * 24 * 7)));
+    console.log(twoWeeksAgo);
+    const lastTwoWeeksAway = allAwayGames.filter(date => date.games[0].status.detailedState === 'Final').map(date => date.games[0]).filter(game => new Date(game.gameDate).getTime() > twoWeeksAgo.getTime());
+    const lastTwoWeeksHome = allHomeGames.filter(g => g.games[0].status.detailedState === 'Final').map(date => date.games[0]).filter(game => new Date(game.gameDate).getTime() > twoWeeksAgo.getTime());
+    const lastFiveAway = [...lastTwoWeeksAway].splice(-5);
+    const lastFiveHome = [...lastTwoWeeksHome].splice(-5);
     detailsTable.innerHTML = '';
     detailsTable.appendChild(createTr([awayTeam.abbreviation, '@', homeTeam.abbreviation], false, 3, 'th'));
     detailsTable.appendChild(createTr(['Past 2 Weeks'], false, 1, 'th', 3));
-    detailsTable.appendChild(createTr([getRecord(lastTenDaysAway, awayTeam.id), 'Record', getRecord(lastTenDaysHome, homeTeam.id)], false));
+    detailsTable.appendChild(createTr([getRecord(lastTwoWeeksAway, awayTeam.id), 'Record', getRecord(lastTwoWeeksHome, homeTeam.id)], false));
     const lastFiveTr = createTr(['', 'Last 5 Record', ''], false);
     lastFiveTr.classList.add('last-five');
     lastFiveTr.children[0].appendChild(getLastFiveGamesStreak(lastFiveAway, awayTeam.id));
     lastFiveTr.children[2].appendChild(getLastFiveGamesStreak(lastFiveHome, homeTeam.id));
     detailsTable.appendChild(lastFiveTr);
     // detailsTable.appendChild(createPointsCanvasTr(lastTenDaysAway, lastTenDaysHome));
-    detailsTable.appendChild(createGoalsScoredCanvasTr(lastTenDaysAway, lastTenDaysHome));
+    detailsTable.appendChild(createGoalsScoredCanvasTr(lastTwoWeeksAway.filter(g => new Date(g.gameDate).getTime() > oneWeekAgo.getTime()), lastTwoWeeksHome.filter(g => new Date(g.gameDate).getTime() > oneWeekAgo.getTime())));
 }
 function createTr(dataArray, highlight = true, numData = 3, type = 'td', colspan) {
     const tr = document.createElement('tr');
@@ -197,7 +198,13 @@ function createGoalsScoredCanvasTr(awayGames, homeGames) {
         firstDate.setTime(firstDate.getTime() + (1000 * 60 * 60 * 24));
     }
     var canvas = document.createElement('canvas');
-    canvas.style.height = '150px';
+    if (window.screen.width < 1000) {
+        canvas.width = 1;
+    }
+    else {
+        canvas.width = 3;
+    }
+    canvas.height = 1;
     canvas.style.width = '100%';
     tr.children[0].appendChild(canvas);
     var chart = new Chart(canvas.getContext('2d'), {
@@ -208,14 +215,54 @@ function createGoalsScoredCanvasTr(awayGames, homeGames) {
                     label: awayTeam.teamName,
                     backgroundColor: TEAM_COLORS[awayTeam.name].away,
                     data: getGameData(awayTeam.id, awayGames, labels),
+                    barLabel: getBarLabels(awayTeam.id, awayGames, labels)
                 }, {
                     label: homeTeam.teamName,
                     backgroundColor: TEAM_COLORS[homeTeam.name].home,
                     data: getGameData(homeTeam.id, homeGames, labels),
+                    barLabel: getBarLabels(homeTeam.id, homeGames, labels)
                 }]
         },
         options: {
-            title: { text: 'Goal diff. (Last 10 Games)', display: true }
+            title: { text: 'Goal diff. (Past 7 Days)', display: true },
+            tooltips: {
+                enabled: false,
+            },
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            stepSize: 1,
+                            min: -6,
+                            max: 6,
+                        }
+                    }
+                ]
+            },
+            animation: {
+                onComplete: function () {
+                    var chartInstance = this.chart, ctx = chartInstance.ctx;
+                    ctx.font = 'bold 10pt Consolas';
+                    ctx.fillStyle = 'black';
+                    ctx.textAlign = "center";
+                    const stepHeight = 11;
+                    this.data.datasets.forEach(function (dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        meta.data.forEach(function (bar, index) {
+                            var data = dataset.data[index];
+                            var label = dataset.barLabel[index];
+                            if (data === 0 || !label) {
+                                return;
+                            }
+                            ctx.save();
+                            ctx.translate(bar._model.x - 8, bar._model.y + data * stepHeight);
+                            ctx.rotate(-Math.PI / 2);
+                            ctx.fillText(label, 0, 0);
+                            ctx.restore();
+                        });
+                    });
+                }
+            }
         }
     });
     return tr;
@@ -228,6 +275,28 @@ function getGameData(teamId, games, dateRange) {
         gameDay ? gameData.push(gameDay) : gameData.push(undefined);
     });
     gameData.forEach(g => g ? returnData.push(getGoalDiff(g, teamId)) : returnData.push(0));
+    return returnData;
+}
+function getBarLabels(teamId, games, dateRange) {
+    const gameData = [];
+    const returnData = [];
+    dateRange.forEach(date => {
+        const gameDay = games.find(g => `${new Date(g.gameDate).getDate()}-${new Date(g.gameDate).getMonth()}` === `${date.getDate()}-${date.getMonth()}`);
+        gameDay ? gameData.push(gameDay) : gameData.push(undefined);
+    });
+    gameData.forEach((g) => {
+        if (g) {
+            if (g.teams.away.team.id === teamId) {
+                returnData.push(`@ ${TEAM_NAME_SHORT[g.teams.home.team.name]}`);
+            }
+            else {
+                returnData.push(`vs. ${TEAM_NAME_SHORT[g.teams.away.team.name]}`);
+            }
+        }
+        else {
+            returnData.push(undefined);
+        }
+    });
     return returnData;
 }
 function getGoalDiff(game, teamId) {
