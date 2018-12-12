@@ -1,8 +1,14 @@
-let divisionStandings = [];
-let conferenceStandings = [];
-let leagueStandings = [];
+import { getStandings } from '../nhl.api';
+import { registerSidenav } from '../util/global.util';
+import { TEAM_NAME_SHORT } from './../nhl.api';
+
+let divisionStandings: NhlApi.Record.Record[] = [];
+let conferenceStandings: any[][] = [];
+let leagueStandings: any[] = [];
 
 window.onload = () => {
+    registerSidenav();
+
     document.getElementById('displayDivisions').onclick = () => displayDivisionStandings();
     document.getElementById('displayConferences').onclick = () => displayConferenceStandings();
     document.getElementById('displayLeague').onclick = () => displayLeagueStandings();
@@ -65,10 +71,10 @@ function displayLeagueStandings() {
     document.getElementById('league-standing').appendChild(createStandingTable(leagueStandings, true));
 }
 
-function createStandingTable(teamRecords, details) {
+function createStandingTable(teamRecords: any, details: boolean) {
     const list = document.createElement('ul');
     list.classList.add('w3-ul');
-    teamRecords.forEach(t => {
+    teamRecords.forEach((t: any) => {
         const listItem = document.createElement('li');
         listItem.classList.add('w3-bar');
         listItem.classList.add('hoverable-item');
@@ -81,7 +87,7 @@ function createStandingTable(teamRecords, details) {
 
         const img = document.createElement('img');
         img.src = `./images/${t.team.id}.gif`;
-        img.classList.add(['w3-bar-item']);
+        img.classList.add('w3-bar-item');
         img.style.width = '40px';
         img.style.height = '40px';
         img.style.cssFloat = 'left';

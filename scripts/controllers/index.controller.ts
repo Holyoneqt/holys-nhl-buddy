@@ -1,8 +1,12 @@
+import { registerSidenav } from '../util/global.util';
+import { getAllVideos } from '../youtube.api';
+
 const date = new Date();
 date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
 let condensedGames: YoutubeApi.Item[] = [];
 
 window.onload = () => {
+    registerSidenav();
     displayDate(date.toLocaleDateString());
 
     document.getElementById('prev').onclick = () => {

@@ -1,8 +1,8 @@
-#details-table tr td:first-child #details-table tr th:first-child {
+#details-table tr td:first-child, #details-table tr th:first-child {
     width: 33.3%;
 }
 
-#details-table tr td:last-child #details-table tr th:last-child {
+#details-table tr td:last-child, #details-table tr th:last-child {
     width: 33.3%;
 }
 
@@ -27,7 +27,7 @@
     font-size: 10px;
     font-family: 'Consolas';
     text-align: center;
-    margin: 2px;
+    margin: 1px;
 }
   
 

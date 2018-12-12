@@ -2,6 +2,21 @@ import { TrOptions } from '../models/global';
 
 const LOADING_ICON_CLASS = 'core--loading-icon';
 
+export function registerSidenav() {
+    const sidenav = document.getElementById('nav--sidenav');
+    const sidenavToggleButton = document.getElementById('nav--toggle');
+    sidenavToggleButton.onclick = () => {
+        console.log(sidenav.style.width);
+        if (sidenav.style.width === '0px') {
+            sidenav.style.width = '200px';
+            sidenavToggleButton.classList.replace('fa-bars', 'fa-times')
+        } else {
+            sidenav.style.width = '0px';
+            sidenavToggleButton.classList.replace('fa-times', 'fa-bars')
+        }
+    };
+}
+
 export function getLoadingIcon(pageCentered: boolean = false) {
     const loadingIconContainer = document.createElement('div')
     loadingIconContainer.classList.add(LOADING_ICON_CLASS);

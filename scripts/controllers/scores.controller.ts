@@ -1,5 +1,5 @@
-import { getScores, getSchedule, SEASON_START, SEASON_END } from '../nhl.api';
-import { getLoadingIcon } from '../util/global.util';
+import { getSchedule, getScores, SEASON_END, SEASON_START } from '../nhl.api';
+import { getLoadingIcon, registerSidenav } from '../util/global.util';
 import { GameArrayHelper } from '../util/helper/game.helper';
 import { teamHasWonGame } from '../util/nhl.util';
 
@@ -12,6 +12,7 @@ let gamesOfTeam: { [id: number]: GameArrayHelper } = {};
 let selectedGame: NhlApi.Schedule.Game;
 
 window.onload = () => {
+    registerSidenav();
     displayDate(date.toLocaleDateString());
 
     document.getElementById('prev').onclick = () => {
