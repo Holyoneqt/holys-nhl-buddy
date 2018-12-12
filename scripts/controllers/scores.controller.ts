@@ -1,9 +1,14 @@
+import { getScores, getSchedule, SEASON_START, SEASON_END } from '../nhl.api';
+import { getLoadingIcon } from '../util/global.util';
+import { GameArrayHelper } from '../util/helper/game.helper';
+import { teamHasWonGame } from '../util/nhl.util';
+
 const date = new Date();
 date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
 let games: NhlApi.Schedule.Game[] = [];
 
 // All games of a team based on the api-call
-let gamesOfTeam: { [id: number]: NhlApi.Schedule.Game[] } = {};
+let gamesOfTeam: { [id: number]: GameArrayHelper } = {};
 let selectedGame: NhlApi.Schedule.Game;
 
 window.onload = () => {
@@ -197,17 +202,13 @@ function displayExpandedScore(listItem: HTMLLIElement, homeId: number, awayId: n
 }
 
 function mapGames(apiResponse: NhlApi.Schedule.Response, teamId: number): ScoresModel.MappedGames {
-    const allGames: NhlApi.Schedule.Game[] = [];
-    apiResponse.dates.forEach(date => {
-        date.games.forEach(game => allGames.push(game));
-    });
-
+    const allGames = new GameArrayHelper(apiResponse.dates);
     gamesOfTeam[teamId] = allGames;
 
-    const finishedGames = allGames.filter(game => game.status.detailedState === 'Final');
-    const homeGames = finishedGames.filter(game => game.teams.home.team.id === teamId);
+    const finishedGames = allGames.final().select();
+    const homeGames = allGames.final().homeGamesOfTeam(teamId).select();
     const wonAtHome = homeGames.filter(game => game.teams.home.score > game.teams.away.score);
-    const awayGames = finishedGames.filter(game => game.teams.away.team.id === teamId);
+    const awayGames = allGames.final().awayGamesOfTeam(teamId).select();
     const wonAway = awayGames.filter(game => game.teams.home.score < game.teams.away.score);
     let mapped: ScoresModel.MappedGames = {
         teamName: homeGames[0].teams.home.team.name,
@@ -246,17 +247,9 @@ function getRivalry(away: ScoresModel.MappedGames, home: ScoresModel.MappedGames
 }
 
 function getLast(numGames: number, teamId: number): string {
-    const lastTen = gamesOfTeam[teamId].filter(game => game.status.detailedState === 'Final').slice(-numGames);
+    const lastTen = gamesOfTeam[teamId].final().last(numGames).select();
     let w = 0, l = 0;
-    lastTen.forEach(g => {
-        const teamPropName: 'home' | 'away' = (g.teams.home.team.id === teamId) ? 'home' : 'away';
-        const otherPropName: 'home' | 'away' = teamPropName === 'home' ? 'away' : 'home';
-        if (g.teams[teamPropName].score > g.teams[otherPropName].score) {
-            w++
-        } else {
-            l++;
-        }
-    });
+    lastTen.forEach(g => teamHasWonGame(teamId, g) ? w++ : l++);
     return `${w}-${l}`;
 }
 
