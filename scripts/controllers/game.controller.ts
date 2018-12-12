@@ -202,8 +202,9 @@ function createPointsCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames: NhlA
 
 function createGoalsScoredCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames: NhlApi.Schedule.Game[]) {
     const tr = createTr([''], false, 1, 'td', 3);
-    let firstDate = new Date(awayGames[0].gameDate).getTime() > new Date(homeGames[0].gameDate).getTime() ? new Date(homeGames[0].gameDate) : new Date(homeGames[0].gameDate);
-    var labels = [];
+    // let firstDate = new Date(awayGames[0].gameDate).getTime() > new Date(homeGames[0].gameDate).getTime() ? new Date(homeGames[0].gameDate) : new Date(homeGames[0].gameDate);
+    const firstDate = new Date(new Date().getTime() - (1000 * 60 * 60 * 24 * 7));
+    const labels = [];
     while (firstDate.getTime() <= new Date().getTime()) {
         labels.push(new Date(firstDate));
         firstDate.setTime(firstDate.getTime() + (1000 * 60 * 60 * 24));
@@ -218,6 +219,7 @@ function createGoalsScoredCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames:
     canvas.height = 1;
     canvas.style.width = '100%';
     tr.children[0].appendChild(canvas);
+    console.log(labels);
     var chart = new Chart(canvas.getContext('2d'), {
         type: 'bar',
         data: {
