@@ -1,3 +1,5 @@
+import { getGame, getTeam, getSchedule, SEASON_START, SEASON_END } from '../nhl.api';
+
 let gameData: NhlApi.Game.GameData;
 let awayTeam: NhlApi.Team.Team;
 let homeTeam: NhlApi.Team.Team;
@@ -151,7 +153,7 @@ function getLastFiveGamesStreak(iterable: NhlApi.Schedule.Game[], teamId: number
             }
         } else {
             if (g.teams.away.score < g.teams.home.score) {
-                box.classList.add('box-win');
+                box.classList.add('box-win'); 
                 box.innerHTML = 'W';
             } else {
                 box.classList.add('box-loss');

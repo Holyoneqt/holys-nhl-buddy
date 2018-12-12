@@ -5,46 +5,46 @@ const TEAMS = `${API_URL}/api/v1/teams`;
 const SCHEDULE = `${API_URL}/api/v1/schedule`;
 const GAME = `${API_URL}/api/v1/game`
 
-const SEASON_START = '2018-10-03';
-const SEASON_END = '2019-04-06';
+export const SEASON_START = '2018-10-03';
+export const SEASON_END = '2019-04-06';
 
-function getStandings(): Promise<NhlApi.Record.Response> {
+export function getStandings(): Promise<NhlApi.Record.Response> {
     return fetch(STANDINGS)
         .then(response => response.json())
         .catch(err => console.error(err));
 }
 
-function getTeam(id: string | number): Promise<NhlApi.Team.Response> {
+export function getTeam(id: string | number): Promise<NhlApi.Team.Response> {
     return fetch(`${TEAMS}/${id}?expand=team.stats`)
         .then(response => response.json())
         .catch(err => console.error(err));
 }
 
-function getScores(start: string, end: string): Promise<NhlApi.Schedule.Response> {
+export function getScores(start: string, end: string): Promise<NhlApi.Schedule.Response> {
     return fetch(`${SCHEDULE}?startDate=${start}&endDate=${end}`)
         .then(response => response.json())
         .catch(err => console.error(err));
 }
 
-function getSchedule(id: string | number, start: string, end: string): Promise<NhlApi.Schedule.Response> {
+export function getSchedule(id: string | number, start: string, end: string): Promise<NhlApi.Schedule.Response> {
     return fetch(`${SCHEDULE}?teamId=${id}&startDate=${start}&endDate=${end}`)
         .then(response => response.json())
         .catch(err => console.error(err));
 }
 
-function getRoster(id: string | number): Promise<NhlApi.Roster.Response> {
+export function getRoster(id: string | number): Promise<NhlApi.Roster.Response> {
     return fetch(`${TEAMS}/${id}?expand=team.roster`)
         .then(response => response.json())
         .catch(err => console.error(err));
 }
 
-function getGame(id: string): Promise<NhlApi.Game.ApiResponse> {
+export function getGame(id: string): Promise<NhlApi.Game.ApiResponse> {
     return fetch(`${GAME}/${id}/feed/live`)
         .then(response => response.json())
         .catch(err => console.error(err));
 }
 
-const TEAM_NAME_SHORT = {
+export const TEAM_NAME_SHORT = {
     'Anaheim Ducks': 'ANA',
     'Arizona Coyotes': 'ARI',
     'Boston Bruins': 'BOS',
@@ -78,7 +78,7 @@ const TEAM_NAME_SHORT = {
     'Washington Capitals': 'WSH',
 };
 
-const TEAM_COLORS: { [id: string]: { home: string, away: string } } = {
+export const TEAM_COLORS: { [id: string]: { home: string, away: string } } = {
     'Anaheim Ducks': { home: '#F47A38', away: '#B09862' },
     'Arizona Coyotes': { home: '#8C2633', away: '#E2D6B5' },
     'Boston Bruins': { home: '#FFB81C', away: '#A2AAAD' },
