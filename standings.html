@@ -6,19 +6,30 @@
     <title>Holy's NHL Buddy</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
-    <script src="dist/nhl.api.js"></script>
-    <script src="scripts/controllers/standings.js"></script>
+    <script src="dist/standings-bundle.js"></script>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" type="text/css" href="styles/core.style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Satisfy|Roboto" rel="stylesheet">
 </head>
 
 <body>
-    <div class="w3-bar w3-black">
-        <a class="w3-bar-item w3-button" href="index.html">Condensed Games</a>
-        <a class="w3-bar-item w3-button" href="scores.html">Scores</a>
-        <a class="w3-bar-item w3-button" href="standings.html">Standings</a>
-    </div>
+    <header>
+        <div class="w3-bar">
+            <i id="nav--toggle" class="fas fa-bars"></i>
+            <p class="header--title">Holy's NHL Buddy</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="w3-sidebar w3-bar-block w3-border-right" style="width: 0px" id="nav--sidenav">
+            <a href="index.html">Condensed Games</a>
+            <a href="scores.html">Scores</a>
+            <a href="standings.html">Standings</a>
+        </div>
+    </nav>
 
     <div class="w3-bar" style="margin-top: 10px; padding: 0 30%;">
         <button id="displayDivisions" style="margin-right: 2px; width: calc(33.3% - 8px);" class="w3-bar-item w3-button w3-deep-orange">Divisions</button>

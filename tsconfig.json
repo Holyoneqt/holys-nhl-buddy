@@ -5,7 +5,7 @@
     "strict": true,
     "strictNullChecks": false,
     "esModuleInterop": true,
-    "outDir": "dist",
-    "sourceMap": true
+    "outDir": "dist/build",
+    "sourceMap": false
   }
 }

@@ -253,7 +253,7 @@ declare module NhlApi.Schedule {
         link: string;
         gameType: string;
         season: string;
-        gameDate: Date;
+        gameDate: string;
         status: Status;
         teams: Teams;
         venue: Venue;
