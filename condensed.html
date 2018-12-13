@@ -6,10 +6,8 @@
     <title>Holy's NHL Buddy</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
-    <script src="dist/index-bundle.js"></script>
+    <script src="dist/condensed-bundle.js"></script>
 
-    
-    <link rel="stylesheet" href="styles/index.style.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" type="text/css" href="styles/core.style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
@@ -30,15 +28,17 @@
         </div>
     </nav>
 
-    <section class="w3-container w3-center">
-        <div class="section--header">
-            <img src="favicon.ico"/>
-            Games of Today
-        </div>
-        <div id="todays-games" style="text-align: center;">
-        </div>
-    </section>
-    
+    <div class="change-date">
+        <button id="prev" style="margin-right: 5px;" class="w3-btn w3-tiny w3-light-green">Prev</button>
+        <p id="date"></p>
+        <button id="next" style="margin-left: 5px;" class="w3-btn w3-tiny w3-light-green">Next
+    </div>
+    </button>
+    <div>
+        <ul id="games" class="w3-ul">
+
+        </ul>
+    </div>
 </body>
 
 </html>

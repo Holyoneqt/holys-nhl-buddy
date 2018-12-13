@@ -4,7 +4,10 @@ export class GameArrayHelper {
     private selectedGames: NhlApi.Schedule.Game[];
 
     constructor(games: NhlApi.Schedule.Date[]) {
-        this.initialGames = games.map(date => date.games[0]);
+        this.initialGames = [];
+        games.forEach(date => {
+            date.games.forEach(game => this.initialGames.push(game));
+        });
         this.selectedGames = [...this.initialGames];
     }
 

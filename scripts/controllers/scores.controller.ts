@@ -1,7 +1,7 @@
 import { getSchedule, getScores, SEASON_END, SEASON_START } from '../nhl.api';
 import { getLoadingIcon, registerSidenav } from '../util/global.util';
 import { GameArrayHelper } from '../util/helper/game.helper';
-import { teamHasWonGame } from '../util/nhl.util';
+import { teamHasWonGame, getNhlApiDate } from '../util/nhl.util';
 
 const date = new Date();
 date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
@@ -32,7 +32,7 @@ window.onload = () => {
 };
 
 function getScoresOfDay(date: Date) {
-    getScores(getFormatedDate(date), getFormatedDate(date))
+    getScores(getNhlApiDate(date), getNhlApiDate(date))
         .then(j => games = j.dates[0].games)
         .then(() => displayGames(games));
 }
@@ -78,20 +78,6 @@ function displayGames(gameList: NhlApi.Schedule.Game[]) {
 
 function displayDate(date: string) {
     document.getElementById('date').innerHTML = date;
-}
-
-function getFormatedDate(date: Date) {
-    var month = (date.getMonth() + 1).toString();
-    if (month.length === 1) {
-        month = '0' + month;
-    }
-    var day = date.getDate().toString();
-    if (day.length === 1) {
-        day = '0' + day;
-    }
-    var year = date.getUTCFullYear();
-
-    return `${year}-${month}-${day}`;
 }
 
 function displayExpandedScore(listItem: HTMLLIElement, homeId: number, awayId: number) {

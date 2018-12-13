@@ -1,71 +1,59 @@
-import { registerSidenav } from '../util/global.util';
-import { getAllVideos } from '../youtube.api';
+import { getScores, getGame } from '../nhl.api';
+import { registerSidenav, createTr } from '../util/global.util';
+import { GameArrayHelper } from '../util/helper/game.helper';
+import { getNhlApiDate } from '../util/nhl.util';
+import { TodaysGameModel } from '../models';
 
-const date = new Date();
-date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
-let condensedGames: YoutubeApi.Item[] = [];
+let todaysGames: GameArrayHelper;
 
 window.onload = () => {
     registerSidenav();
-    displayDate(date.toLocaleDateString());
 
-    document.getElementById('prev').onclick = () => {
-        date.setTime(date.getTime() - (1000 * 60 * 60 * 24));
-        displayDate(date.toLocaleDateString());
-        let gamesOfDay = condensedGames.filter(g => g.snippet.title.includes(getFormatedDate(date)));
-        displayGames(gamesOfDay);
-    };
-
-    document.getElementById('next').onclick = () => {
-        date.setTime(date.getTime() + (1000 * 60 * 60 * 24));
-        displayDate(date.toLocaleDateString());
-        let gamesOfDay = condensedGames.filter(g => g.snippet.title.includes(getFormatedDate(date)));
-        displayGames(gamesOfDay);
-    };
-
-    getAllVideos()
-        .then(json => json.items.filter(i => i.snippet.title.includes('Condensed Game')))
-        .then(filtered => condensedGames = filtered)
-        .then(() => displayGames(condensedGames.filter(g => g.snippet.title.includes(getFormatedDate(date)))));
+    const dateToday = getNhlApiDate(new Date());
+    getScores(dateToday, dateToday)
+        .then(response => todaysGames = new GameArrayHelper(response.dates))
+        .then(() => displayTodaysGames());
 };
 
-function displayGames(gameList: YoutubeApi.Item[]): void {
-    var gamesList = document.getElementById('games');
-    gamesList.innerHTML = '';
-    gameList.forEach(g => {
-        var li = document.createElement('li');
+function displayTodaysGames() {
+    const todaysGamesTable = document.getElementById('todays-games');
+    todaysGames.all().select().forEach(async g => {
+        const gameData = (await getGame(g.gamePk.toString())).gameData;
 
-        var img = document.createElement('img');
-        img.src = g.snippet.thumbnails.high.url;
-        img.style.width = '160px';
-        img.style.height = '90px';
-        img.style.marginRight = '5px';
-
-        var a = document.createElement('a');
-        a.innerHTML = g.snippet.title;
-        a.href = `https://www.youtube.com/watch?v=${g.id.videoId}`;
-        a.style.fontSize = '24px';
-
-        li.appendChild(img);
-        li.appendChild(a);
-        gamesList.appendChild(li);
+        const gameContainer = document.createElement('div');
+        gameContainer.innerHTML = todaysGameTemplate({
+            time: new Date(gameData.datetime.dateTime).toLocaleTimeString().substring(0, 5),
+            away: {
+                name: g.teams.away.team.name,
+                record: leagueRecord(g.teams.away),
+            },
+            home: {
+                name: g.teams.home.team.name,
+                record: leagueRecord(g.teams.home),
+            }
+        });
+        (<HTMLDivElement> gameContainer.children[0]).onclick = () => window.location.href = `./game.html?id=${g.gamePk}`;
+        todaysGamesTable.appendChild(gameContainer);
     });
 }
 
-function displayDate(date: string): void {
-    document.getElementById('date').innerHTML = date;
+function leagueRecord(team: NhlApi.Schedule.Home | NhlApi.Schedule.Away): string {
+    return `${team.leagueRecord.wins}-${team.leagueRecord.losses}-${team.leagueRecord.ot}`;
 }
 
-function getFormatedDate(date: Date): string {
-    var month = (date.getMonth() + 1).toString();
-    if (month.length === 1) {
-        month = '0' + month;
-    }
-    var day = date.getDate().toString();
-    if (day.length === 1) {
-        day = '0' + day;
-    }
-    var year = date.getUTCFullYear() - 2000;
-
-    return `${month}/${day}/${year}`;
+function todaysGameTemplate(model: TodaysGameModel) {
+    return `
+        <div class="game">
+            <div class="game--time">${model.time}</div>
+                <div class="game--teams">
+                    <div class="game--team-away">${model.away.name}</div>
+                    <div class="game--team-home">${model.home.name}</div>
+                </div>
+                <div class="game--records">
+                    <div class="game--record-away">${model.away.record}</div>
+                    <div class="game--record-home">${model.home.record}</div>
+                </div>
+            </div>
+        </div>
+    `;
 }

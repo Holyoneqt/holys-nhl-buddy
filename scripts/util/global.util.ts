@@ -5,6 +5,12 @@ const LOADING_ICON_CLASS = 'core--loading-icon';
 export function registerSidenav() {
     const sidenav = document.getElementById('nav--sidenav');
     const sidenavToggleButton = document.getElementById('nav--toggle');
+    
+    sidenav.appendChild(sideNavLink('index.html', 'Home'));
+    sidenav.appendChild(sideNavLink('condensed.html', 'Condensed Games'));
+    sidenav.appendChild(sideNavLink('scores.html', 'Scores'));
+    sidenav.appendChild(sideNavLink('standings.html', 'Standings'));
+    
     sidenavToggleButton.onclick = () => {
         console.log(sidenav.style.width);
         if (sidenav.style.width === '0px') {
@@ -15,6 +21,13 @@ export function registerSidenav() {
             sidenavToggleButton.classList.replace('fa-times', 'fa-bars')
         }
     };
+}
+
+function sideNavLink(href: string, display: string): HTMLAnchorElement {
+    const a = document.createElement('a');
+    a.href = href;
+    a.innerHTML = display;
+    return a;
 }
 
 export function getLoadingIcon(pageCentered: boolean = false) {
@@ -38,9 +51,10 @@ export function removeLoadingIcon() {
 
 export function createTr(data: any[], options: TrOptions = {}): HTMLTableRowElement {
     options.type = options.type || 'td';
-    options.highlight = (typeof options.highlight === 'undefined') ? true : options.highlight;
+    options.classes = options.classes || [];
 
     const tr = document.createElement('tr');
+    tr.classList.add(...options.classes);
     for (let i = 0; i < data.length; i++) {
         const td = document.createElement(options.type);
         if (options.colspan) { td.colSpan = options.colspan; }

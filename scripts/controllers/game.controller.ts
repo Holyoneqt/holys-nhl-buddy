@@ -54,22 +54,22 @@ function displayStats() {
     const awayTeamStats = awayTeam.teamStats[0].splits[0].stat, homeTeamStats = homeTeam.teamStats[0].splits[0].stat;
 
     detailsTable.innerHTML = '';
-    detailsTable.appendChild(createTr([awayTeam.abbreviation, '@', homeTeam.abbreviation], { highlight: false, type: 'th' }));
+    detailsTable.appendChild(createTr([awayTeam.abbreviation, '@', homeTeam.abbreviation], { type: 'th' }));
     detailsTable.appendChild(createTr(['Regular Season'], { highlight: false, type: 'th', colspan: 3 }));
-    detailsTable.appendChild(createTr([awayTeamStats.gamesPlayed, 'Games Played', homeTeamStats.gamesPlayed], { highlight: false }));
-    detailsTable.appendChild(createTr([awayTeamStats.wins, 'Wins', homeTeamStats.wins]));
-    detailsTable.appendChild(createTr([awayTeamStats.losses, 'Losses', homeTeamStats.losses], { invertHighlight: true }));
-    detailsTable.appendChild(createTr([awayTeamStats.ot, 'OT', homeTeamStats.ot], {highlight: false }));
-    detailsTable.appendChild(createTr([awayTeamStats.ptPctg, 'Point %', homeTeamStats.ptPctg]));
+    detailsTable.appendChild(createTr([awayTeamStats.gamesPlayed, 'Games Played', homeTeamStats.gamesPlayed]));
+    detailsTable.appendChild(createTr([awayTeamStats.wins, 'Wins', homeTeamStats.wins], { highlight: true }));
+    detailsTable.appendChild(createTr([awayTeamStats.losses, 'Losses', homeTeamStats.losses], { highlight: true, invertHighlight: true }));
+    detailsTable.appendChild(createTr([awayTeamStats.ot, 'OT', homeTeamStats.ot]));
+    detailsTable.appendChild(createTr([awayTeamStats.ptPctg, 'Point %', homeTeamStats.ptPctg], { highlight: true }));
     detailsTable.appendChild(createTr([' ', ' ', ' ']));
-    detailsTable.appendChild(createTr([awayTeamStats.goalsPerGame, 'Goals per Game', homeTeamStats.goalsPerGame]));
-    detailsTable.appendChild(createTr([awayTeamStats.powerPlayPercentage, 'PP%', homeTeamStats.powerPlayPercentage]));
-    detailsTable.appendChild(createTr([awayTeamStats.penaltyKillPercentage, 'PK%', homeTeamStats.penaltyKillPercentage]));
+    detailsTable.appendChild(createTr([awayTeamStats.goalsPerGame, 'Goals per Game', homeTeamStats.goalsPerGame], { highlight: true }));
+    detailsTable.appendChild(createTr([awayTeamStats.powerPlayPercentage, 'PP%', homeTeamStats.powerPlayPercentage], { highlight: true }));
+    detailsTable.appendChild(createTr([awayTeamStats.penaltyKillPercentage, 'PK%', homeTeamStats.penaltyKillPercentage], { highlight: true }));
     detailsTable.appendChild(createTr([' ', ' ', ' ']));
-    detailsTable.appendChild(createTr([Math.round(awayTeamStats.shotsPerGame), 'Shots per Game', Math.round(homeTeamStats.shotsPerGame)]));
-    detailsTable.appendChild(createTr([awayTeamStats.shootingPctg, 'Shooting %', homeTeamStats.shootingPctg]));
-    detailsTable.appendChild(createTr([Math.round(awayTeamStats.shotsAllowed), 'Shots Against', Math.round(homeTeamStats.shotsAllowed)], {invertHighlight: true }));
-    detailsTable.appendChild(createTr([awayTeamStats.savePctg, 'Save %', homeTeamStats.savePctg]));
+    detailsTable.appendChild(createTr([Math.round(awayTeamStats.shotsPerGame), 'Shots per Game', Math.round(homeTeamStats.shotsPerGame)], { highlight: true }));
+    detailsTable.appendChild(createTr([awayTeamStats.shootingPctg, 'Shooting %', homeTeamStats.shootingPctg], { highlight: true }));
+    detailsTable.appendChild(createTr([Math.round(awayTeamStats.shotsAllowed), 'Shots Against', Math.round(homeTeamStats.shotsAllowed)], { highlight: true, invertHighlight: true }));
+    detailsTable.appendChild(createTr([awayTeamStats.savePctg, 'Save %', homeTeamStats.savePctg], { highlight: true }));
     detailsTable.appendChild(createTr([' ', ' ', ' ']));
 }
 
@@ -82,11 +82,11 @@ function displayLastTen() {
     const lastFiveHome = homeGames.final().last(5).select();
 
     detailsTable.innerHTML = '';
-    detailsTable.appendChild(createTr([awayTeam.abbreviation, '@', homeTeam.abbreviation], { highlight: false, type: 'th' }));
-    detailsTable.appendChild(createTr(['Past 2 Weeks'],  { highlight: false, type: 'th', colspan: 3 }));
-    detailsTable.appendChild(createTr([getRecord(lastTwoWeeksAway, awayTeam.id), 'Record', getRecord(lastTwoWeeksHome, homeTeam.id)], { highlight: false }));
+    detailsTable.appendChild(createTr([awayTeam.abbreviation, '@', homeTeam.abbreviation], { type: 'th' }));
+    detailsTable.appendChild(createTr(['Past 2 Weeks'],  { type: 'th', colspan: 3 }));
+    detailsTable.appendChild(createTr([getRecord(lastTwoWeeksAway, awayTeam.id), 'Record', getRecord(lastTwoWeeksHome, homeTeam.id)]));
 
-    const lastFiveTr = createTr(['', 'Last 5 Record', ''], { highlight: false });
+    const lastFiveTr = createTr(['', 'Last 5 Record', '']);
     lastFiveTr.classList.add('last-five')
     lastFiveTr.children[0].appendChild(getLastFiveGamesStreak(lastFiveAway, awayTeam.id));
     lastFiveTr.children[2].appendChild(getLastFiveGamesStreak(lastFiveHome, homeTeam.id));

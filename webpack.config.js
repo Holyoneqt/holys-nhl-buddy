@@ -5,6 +5,7 @@ module.exports = {
     watch: true,
     entry: {
         index: "./dist/build/controllers/index.controller.js",
+        condensed: "./dist/build/controllers/condensed.controller.js",
         scores: "./dist/build/controllers/scores.controller.js",
         game: "./dist/build/controllers/game.controller.js",
         standings: "./dist/build/controllers/standings.controller.js",
