@@ -32,23 +32,26 @@ window.onload = () => {
 function displayGames(gameList: YoutubeApi.Item[]): void {
     var gamesList = document.getElementById('games');
     gamesList.innerHTML = '';
-    gameList.forEach(g => {
-        var li = document.createElement('li');
+    gameList.forEach(game => {
+        const listItemTemplate = document.createElement('template');
 
-        var img = document.createElement('img');
-        img.src = g.snippet.thumbnails.high.url;
-        img.style.width = '160px';
-        img.style.height = '90px';
-        img.style.marginRight = '5px';
+        listItemTemplate.innerHTML = `
+            <li>
+                <div class="youtube-link--container">
+                    <img src="${game.snippet.thumbnails.default.url}" style="position: absolute;" />
+                    <span style="position: relative; left: 130px;">
+                        <div class="youtube-link--title">${game.snippet.title.substring('mm/dd/yy Condensed Game: '.length)}</div>
+                        <div style="color: #606060; font-style: italic;">${new Date(game.snippet.title.substring(0, 8)).toLocaleDateString()}</div>
+                    </span>
+                </div>
+            </li>
+        `;
 
-        var a = document.createElement('a');
-        a.innerHTML = g.snippet.title;
-        a.href = `https://www.youtube.com/watch?v=${g.id.videoId}`;
-        a.style.fontSize = '24px';
+        (listItemTemplate.content.querySelector('.youtube-link--container') as HTMLLIElement).onclick = () => {
+            location.href = `https://www.youtube.com/watch?v=${game.id.videoId}`;
+        };
 
-        li.appendChild(img);
-        li.appendChild(a);
-        gamesList.appendChild(li);
+        gamesList.appendChild(listItemTemplate.content);
     });
 }
 

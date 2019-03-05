@@ -1,9 +1,10 @@
-const API_URL = 'https://statsapi.web.nhl.com';
+const API_URL = 'https://statsapi.web.nhl.com/api/v1';
 
-const STANDINGS = `${API_URL}/api/v1/standings`;
-const TEAMS = `${API_URL}/api/v1/teams`;
-const SCHEDULE = `${API_URL}/api/v1/schedule`;
-const GAME = `${API_URL}/api/v1/game`
+const STANDINGS = `${API_URL}/standings`;
+const TEAMS = `${API_URL}/teams`;
+const SCHEDULE = `${API_URL}/schedule`;
+const GAME = `${API_URL}/game`;
+const PEOPLE = `${API_URL}/people`;
 
 export const SEASON_START = '2018-10-03';
 export const SEASON_END = '2019-04-06';
@@ -41,6 +42,13 @@ export function getRoster(id: string | number): Promise<NhlApi.Roster.Response> 
 export function getGame(id: string): Promise<NhlApi.Game.ApiResponse> {
     return fetch(`${GAME}/${id}/feed/live`)
         .then(response => response.json())
+        .catch(err => console.error(err));
+}
+
+export function getPlayer(id: string | number): Promise<NhlApi.People.Player> {
+    return fetch(`${PEOPLE}/${id}`)
+        .then(response => response.json())
+        .then(apiJson => apiJson.people[0])
         .catch(err => console.error(err));
 }
 

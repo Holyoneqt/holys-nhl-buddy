@@ -1,4 +1,4 @@
-import { getScores, getGame } from '../nhl.api';
+import { getScores, getGame, getRoster, getPlayer } from '../nhl.api';
 import { registerSidenav, createTr } from '../util/global.util';
 import { GameArrayHelper } from '../util/helper/game.helper';
 import { getNhlApiDate } from '../util/nhl.util';

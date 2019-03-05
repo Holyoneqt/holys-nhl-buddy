@@ -1,0 +1,17 @@
+.youtube-link--container {
+    position: relative;
+    
+    padding: 5px;
+    height: 100px;
+}
+
+.youtube-link--container:hover {
+    background: #F0F0F0;
+    cursor: pointer;
+}
+
+.youtube-link--title {
+    display: inline-block;
+    font-size: 18px;
+    width: calc(100% - 130px);
+}
