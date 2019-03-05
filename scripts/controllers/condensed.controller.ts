@@ -39,9 +39,10 @@ function displayGames(gameList: YoutubeApi.Item[]): void {
             <li>
                 <div class="youtube-link--container">
                     <img src="${game.snippet.thumbnails.default.url}" style="position: absolute;" />
-                    <span style="position: relative; left: 130px;">
+                    <span class="youtube-link--info">
                         <div class="youtube-link--title">${game.snippet.title.substring('mm/dd/yy Condensed Game: '.length)}</div>
-                        <div style="color: #606060; font-style: italic;">${new Date(game.snippet.title.substring(0, 8)).toLocaleDateString()}</div>
+                        <div class="youtube-link--date">${new Date(game.snippet.title.substring(0, 8)).toLocaleDateString()}</div>
+                        <div class="youtube-link--description">${game.snippet.description}</div>
                     </span>
                 </div>
             </li>
