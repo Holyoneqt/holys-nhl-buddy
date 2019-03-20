@@ -31,7 +31,10 @@
 
 .youtube-link--description {
     margin-top: 4px;
+    padding: 2px;
     height: 38px;
     font-size: 12px;
     overflow: scroll;
+    overflow-x: hidden;
+    border-top: 1px solid #cccccc;
 }

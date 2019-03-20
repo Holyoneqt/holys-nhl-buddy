@@ -5,7 +5,7 @@ const date = new Date();
 date.setTime(new Date().getTime() - (1000 * 60 * 60 * 24));
 let condensedGames: YoutubeApi.Item[] = [];
 
-window.onload = () => {
+window.onload = async () => {
     registerSidenav();
     displayDate(date.toLocaleDateString());
 
@@ -23,10 +23,12 @@ window.onload = () => {
         displayGames(gamesOfDay);
     };
 
-    getAllVideos()
-        .then(json => json.items.filter(i => i.snippet.title.includes('Condensed Game')))
-        .then(filtered => condensedGames = filtered)
-        .then(() => displayGames(condensedGames.filter(g => g.snippet.title.includes(getFormatedDate(date)))));
+    condensedGames = (await getAllVideos()).items.filter(i => i.snippet.title.includes('Condensed Game'));
+    console.log(condensedGames);
+    displayGames(condensedGames.filter(g => g.snippet.title.includes(getFormatedDate(date))));
+        // .then(json => json.)
+        // .then(filtered => condensedGames = filtered)
+        // .then(() => );
 };
 
 function displayGames(gameList: YoutubeApi.Item[]): void {
