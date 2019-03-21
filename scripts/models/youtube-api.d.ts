@@ -1,63 +1,52 @@
 declare module YoutubeApi {
 
-    export interface PageInfo {
-        totalResults: number;
-        resultsPerPage: number;
+    export interface ApiResonse {
+        etag: string;
+        items: Item[];
+        kind: string;
+        nextPageToken: string;
+        pageInfo: PageInfo;
     }
 
-    export interface Id {
+    export interface PageInfo {
+        resultsPerPage: number;
+        totalResults: number;
+    }
+
+    export interface Item {
+        etag: string;
+        id: string;
+        kind: string;
+        snippet: Snippet;
+    }
+
+    export interface Snippet {
+        channelId: string;
+        channelTitle: string;
+        description: string;
+        playlistId: string;
+        position: number;
+        publishedAt: string;
+        resourceId: ResourceId;
+        thumbnails: {
+            default: Thumbnail;
+            standard: Thumbnail;
+            medium: Thumbnail;
+            high: Thumbnail;
+            maxres: Thumbnail;
+        };
+        title: string;
+    }
+
+    export interface ResourceId {
         kind: string;
         videoId: string;
     }
 
-    export interface Default {
+    export interface Thumbnail {
+        height: number;
         url: string;
         width: number;
-        height: number;
-    }
-
-    export interface Medium {
-        url: string;
-        width: number;
-        height: number;
-    }
-
-    export interface High {
-        url: string;
-        width: number;
-        height: number;
-    }
-
-    export interface Thumbnails {
-        default: Default;
-        medium: Medium;
-        high: High;
-    }
-
-    export interface Snippet {
-        publishedAt: Date;
-        channelId: string;
-        title: string;
-        description: string;
-        thumbnails: Thumbnails;
-        channelTitle: string;
-        liveBroadcastContent: string;
-    }
-
-    export interface Item {
-        kind: string;
-        etag: string;
-        id: Id;
-        snippet: Snippet;
-    }
-
-    export interface YoutubeApiResponse {
-        kind: string;
-        etag: string;
-        nextPageToken: string;
-        regionCode: string;
-        pageInfo: PageInfo;
-        items: Item[];
     }
 
 }

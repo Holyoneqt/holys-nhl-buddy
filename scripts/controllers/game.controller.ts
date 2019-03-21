@@ -1,8 +1,7 @@
-import { getGame, getTeam, getSchedule, SEASON_START, SEASON_END, TEAM_NAME_SHORT, TEAM_COLORS } from '../nhl.api';
-import { getLoadingIcon, removeLoadingIcon } from '../util/global.util';
-import { teamHasWonGame } from '../util/nhl.util';
-import { createTr } from '../util/global.util';
+import { getGame, getSchedule, getTeam, SEASON_END, SEASON_START, TEAM_COLORS, TEAM_NAME_SHORT } from '../nhl.api';
+import { createTr, getLoadingIcon, removeLoadingIcon } from '../util/global.util';
 import { GameArrayHelper } from '../util/helper/game.helper';
+import { teamHasWonGame } from '../util/nhl.util';
 
 let gameData: NhlApi.Game.GameData;
 let awayTeam: NhlApi.Team.Team;
@@ -174,7 +173,6 @@ function createGoalsScoredCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames:
     canvas.height = 1;
     canvas.style.width = '100%';
     tr.children[0].appendChild(canvas);
-    console.log(labels);
     var chart = new Chart(canvas.getContext('2d'), {
         type: 'bar',
         data: {
@@ -210,7 +208,7 @@ function createGoalsScoredCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames:
             },
             animation: {
                 onComplete: function () {
-                    var chartInstance = this.chart,
+                    var chartInstance = (this as any).chart,
                         ctx: CanvasRenderingContext2D = chartInstance.ctx;
 
                     ctx.font = 'bold 10pt Consolas';
@@ -218,9 +216,9 @@ function createGoalsScoredCanvasTr(awayGames: NhlApi.Schedule.Game[], homeGames:
                     ctx.textAlign = "center";
 
                     const stepHeight = 11;
-                    this.data.datasets.forEach(function (dataset, i) {
+                    (this as any).data.datasets.forEach(function (dataset: any, i: any) {
                         var meta = chartInstance.controller.getDatasetMeta(i);
-                        meta.data.forEach(function (bar, index) {
+                        meta.data.forEach(function (bar: any, index: any) {
                             var data = dataset.data[index];
                             var label = dataset.barLabel[index];
                             if (data === 0 || !label) { return; }

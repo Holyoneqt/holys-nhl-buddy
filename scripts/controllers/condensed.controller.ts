@@ -23,12 +23,8 @@ window.onload = async () => {
         displayGames(gamesOfDay);
     };
 
-    condensedGames = (await getAllVideos()).items.filter(i => i.snippet.title.includes('Condensed Game'));
-    console.log(condensedGames);
+    condensedGames = (await getAllVideos()).items;
     displayGames(condensedGames.filter(g => g.snippet.title.includes(getFormatedDate(date))));
-        // .then(json => json.)
-        // .then(filtered => condensedGames = filtered)
-        // .then(() => );
 };
 
 function displayGames(gameList: YoutubeApi.Item[]): void {
@@ -36,7 +32,6 @@ function displayGames(gameList: YoutubeApi.Item[]): void {
     gamesList.innerHTML = '';
     gameList.forEach(game => {
         const listItemTemplate = document.createElement('template');
-
         listItemTemplate.innerHTML = `
             <li>
                 <div class="youtube-link--container">
@@ -51,7 +46,7 @@ function displayGames(gameList: YoutubeApi.Item[]): void {
         `;
 
         (listItemTemplate.content.querySelector('.youtube-link--container') as HTMLLIElement).onclick = () => {
-            location.href = `https://www.youtube.com/watch?v=${game.id.videoId}`;
+            location.href = `https://www.youtube.com/watch?v=${game.snippet.resourceId.videoId}`;
         };
 
         gamesList.appendChild(listItemTemplate.content);

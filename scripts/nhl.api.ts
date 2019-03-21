@@ -52,7 +52,7 @@ export function getPlayer(id: string | number): Promise<NhlApi.People.Player> {
         .catch(err => console.error(err));
 }
 
-export const TEAM_NAME_SHORT = {
+export const TEAM_NAME_SHORT: { [key: string]: string } = {
     'Anaheim Ducks': 'ANA',
     'Arizona Coyotes': 'ARI',
     'Boston Bruins': 'BOS',
