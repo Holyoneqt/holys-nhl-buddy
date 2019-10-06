@@ -1,0 +1,22 @@
+<mat-grid-list cols="3">
+    <mat-grid-tile>
+        <button mat-stroked-button color="primary" (click)="changeDate(-1)" style="border-radius: 0; width: 95%; margin-left: 5%;">
+            Previous Day
+        </button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        {{ selectedDate.toLocaleDateString() }}
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <button mat-stroked-button color="primary" (click)="changeDate(1)" style="border-radius: 0; width: 95%; margin-right: 5%;">
+            Next Day
+        </button>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<app-loading *ngIf="loading; else gamesOfDateContainer;"></app-loading>
+<ng-template #gamesOfDateContainer>
+    <mat-card *ngFor="let game of gamesOfDate">
+        {{game.toString()}}
+    </mat-card>
+</ng-template>

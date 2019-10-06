@@ -1,0 +1,12 @@
+#swipe-controller {
+    position: absolute;
+    height: 100%;
+    width: 5%;
+    left: 0;
+    top: 0;
+    z-index: 0;
+}
+
+.mat-nav-list a.active {
+    background: #e3583948;
+}
