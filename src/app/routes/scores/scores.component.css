@@ -1,0 +1,27 @@
+.game--header, .game--actions {
+    display: flex;
+    width: 100%;
+    height: 40px;
+    margin: 16px 0;
+}
+
+.game--actions {
+    height: 20px;
+    margin-top: 25px;
+}
+
+.game--actions div {
+    flex: 1;
+}
+
+.game--actions p {
+    width: 100%;
+    font-size: 13px;
+    margin: 0;
+    text-align: center;
+    color: #2da1ff;
+}
+
+.game--header img {
+    height: 40px;
+}

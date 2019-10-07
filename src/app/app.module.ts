@@ -8,8 +8,10 @@ import { AppComponent } from './app.component';
 import { AppLoadingComponent } from './components/app-loading/app-loading.component';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AppRoutingModule } from './modules/app-routing.module';
+import { HighlightsComponent } from './routes/highlights/highlights.component';
 import { HomeComponent } from './routes/home/home.component';
 import { ScoresComponent } from './routes/scores/scores.component';
+import { StandingsComponent } from './routes/standings/standings.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { ScoresComponent } from './routes/scores/scores.component';
 
     HomeComponent,
     ScoresComponent,
+    HighlightsComponent,
+    StandingsComponent,
   ],
   imports: [
     BrowserModule,

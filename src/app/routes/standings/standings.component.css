@@ -1,0 +1,10 @@
+.app-button-toggle {
+    width: 96%;
+    margin: 2%;
+    border-radius: 0;
+    display: flex;
+}
+
+.app-button-toggle mat-button-toggle {
+    flex: 1;
+}

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NhlApiService } from 'src/app/services/api/nhl.api.service';
 import { getNhlApiDate } from 'src/app/util/nhl.api.util';
 
-
 @Component({
     selector: 'app-scores',
     templateUrl: 'scores.component.html',
@@ -11,7 +10,7 @@ import { getNhlApiDate } from 'src/app/util/nhl.api.util';
 export class ScoresComponent implements OnInit {
 
     public selectedDate: Date;
-    public gamesOfDate = [];
+    public gamesOfDate: any = [];
 
     public loading = true;
 
@@ -28,7 +27,5 @@ export class ScoresComponent implements OnInit {
         this.gamesOfDate = (await this.nhlApi.getScores(getNhlApiDate(this.selectedDate), getNhlApiDate(this.selectedDate))).dates[0].games;
         this.loading = false;
     }
-
-
 
 }

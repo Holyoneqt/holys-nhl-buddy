@@ -1,6 +1,7 @@
 <mat-grid-list cols="3">
     <mat-grid-tile>
-        <button mat-stroked-button color="primary" (click)="changeDate(-1)" style="border-radius: 0; width: 95%; margin-left: 5%;">
+        <button mat-stroked-button color="primary" (click)="changeDate(-1)"
+            style="border-radius: 0; width: 95%; margin-left: 5%;">
             Previous Day
         </button>
     </mat-grid-tile>
@@ -8,7 +9,8 @@
         {{ selectedDate.toLocaleDateString() }}
     </mat-grid-tile>
     <mat-grid-tile>
-        <button mat-stroked-button color="primary" (click)="changeDate(1)" style="border-radius: 0; width: 95%; margin-right: 5%;">
+        <button mat-stroked-button color="primary" (click)="changeDate(1)"
+            style="border-radius: 0; width: 95%; margin-right: 5%;">
             Next Day
         </button>
     </mat-grid-tile>
@@ -16,7 +18,27 @@
 
 <app-loading *ngIf="loading; else gamesOfDateContainer;"></app-loading>
 <ng-template #gamesOfDateContainer>
-    <mat-card *ngFor="let game of gamesOfDate">
-        {{game.toString()}}
+    <mat-card *ngFor="let game of gamesOfDate" style="margin: 10px 40px;">
+        <div class="game--header">
+            <div>
+                <img src="{{ 'assets/teams/' + game.teams.away.team.id + '.gif' }}" />
+            </div>
+            <div style="flex-grow: 1;">
+                <h1 style="width: 100%; margin: 0; text-align: center;">
+                    {{ game.teams.away.score }} : {{ game.teams.home.score }}
+                </h1>
+            </div>
+            <div>
+                <img src="{{ 'assets/teams/' + game.teams.home.team.id + '.gif' }}" />
+            </div>
+        </div>
+        <div class="game--actions">
+            <div>
+                <p>Watch Highlights</p>
+            </div>
+            <div>
+                <p>Details</p>
+            </div>
+        </div>
     </mat-card>
 </ng-template>

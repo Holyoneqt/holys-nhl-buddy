@@ -19,6 +19,14 @@ export class NhlApiService extends ApiService {
         super();
     }
 
+    public call(url: string): Promise<any> {
+        return super.get(`https://statsapi.web.nhl.com${url}`);
+    }
+
+    public getStandings(): Promise<NhlApi.Record.Response> {
+        return super.get(this.STANDINGS);
+    }
+
     public getGame(id: string): Promise<NhlApi.Game.ApiResponse> {
         return super.get(`${this.GAME}/${id}/feed/live`);
     }
