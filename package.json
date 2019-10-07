@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ng build --prod --base-href \"https://holyoneqt.github.io/holys-lifting-buddy/\" && ngh"
+    "deploy": "ng build --prod --base-href \"https://holyoneqt.github.io/holys-nhl-buddy/\" && ngh"
   },
   "private": true,
   "dependencies": {
