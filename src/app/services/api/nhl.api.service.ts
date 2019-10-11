@@ -23,6 +23,10 @@ export class NhlApiService extends ApiService {
         return super.get(`https://statsapi.web.nhl.com${url}`);
     }
 
+    public getTeams(...teams: string[]): Promise<NhlApi.Team.Response> {
+        return super.get(`${this.TEAMS}?teamId=${teams.join(',')}`);
+    }
+
     public getStandings(): Promise<NhlApi.Record.Response> {
         return super.get(this.STANDINGS);
     }

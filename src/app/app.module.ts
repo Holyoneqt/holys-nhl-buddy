@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppLoadingComponent } from './components/app-loading/app-loading.component';
 import { AppMaterialModule } from './modules/app-material.module';
 import { AppRoutingModule } from './modules/app-routing.module';
+import { GameComponent } from './routes/game/game.component';
 import { HighlightsComponent } from './routes/highlights/highlights.component';
 import { HomeComponent } from './routes/home/home.component';
 import { ScoresComponent } from './routes/scores/scores.component';
@@ -20,6 +21,7 @@ import { StandingsComponent } from './routes/standings/standings.component';
 
     HomeComponent,
     ScoresComponent,
+    GameComponent,
     HighlightsComponent,
     StandingsComponent,
   ],

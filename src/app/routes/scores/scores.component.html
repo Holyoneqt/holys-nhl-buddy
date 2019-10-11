@@ -1,7 +1,6 @@
 <mat-grid-list cols="3">
     <mat-grid-tile>
-        <button mat-stroked-button color="primary" (click)="changeDate(-1)"
-            style="border-radius: 0; width: 95%; margin-left: 5%;">
+        <button mat-stroked-button color="primary" (click)="changeDate(-1)" style="border-radius: 0; width: 95%; margin-left: 5%;">
             Previous Day
         </button>
     </mat-grid-tile>
@@ -9,8 +8,7 @@
         {{ selectedDate.toLocaleDateString() }}
     </mat-grid-tile>
     <mat-grid-tile>
-        <button mat-stroked-button color="primary" (click)="changeDate(1)"
-            style="border-radius: 0; width: 95%; margin-right: 5%;">
+        <button mat-stroked-button color="primary" (click)="changeDate(1)" style="border-radius: 0; width: 95%; margin-right: 5%;">
             Next Day
         </button>
     </mat-grid-tile>
@@ -24,20 +22,26 @@
                 <img src="{{ 'assets/teams/' + game.teams.away.team.id + '.gif' }}" />
             </div>
             <div style="flex-grow: 1;">
-                <h1 style="width: 100%; margin: 0; text-align: center;">
-                    {{ game.teams.away.score }} : {{ game.teams.home.score }}
-                </h1>
+                <div *ngIf="game.status.codedGameState === '1'; else gameScore" style="text-align: center;">
+                    <h4 style="margin: 0;">{{ game.gameDate | date:'shortTime' }}</h4>
+                    <h5 class="hnb-subheader" style="margin: 4px 0 0 0;">@ {{ game.venue.name }}</h5>
+                </div>
+                <ng-template #gameScore>
+                    <h1 style="width: 100%; margin: 0; text-align: center;">
+                        {{ game.teams.away.score }} : {{ game.teams.home.score }}
+                    </h1>
+                </ng-template>
             </div>
             <div>
                 <img src="{{ 'assets/teams/' + game.teams.home.team.id + '.gif' }}" />
             </div>
         </div>
         <div class="game--actions">
-            <div>
-                <p>Watch Highlights</p>
+            <div (click)="game.status.codedGameState === '7' && watchHighlight(game)">
+                <p style.color="{{ game.status.codedGameState === '7' ? '#2da1ff' : 'gray' }}">Watch Highlights</p>
             </div>
-            <div>
-                <p>Details</p>
+            <div (click)="routeToGameDetails(game)">
+                <p style.color="{{ game.status.codedGameState === '7' ? '#2da1ff' : 'gray' }}">Details</p>
             </div>
         </div>
     </mat-card>

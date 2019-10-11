@@ -19,7 +19,7 @@ export class HighlightsComponent implements OnInit {
     constructor(private ytApi: YoutubeApiService) { }
 
     public async ngOnInit(): Promise<void> {
-        this.allVideos = (await this.ytApi.getAllVideos()).items.filter(item => item.snippet.title !== 'Deleted video');
+        this.allVideos = (await this.ytApi.getAllVideos()).items.filter(item => item.snippet.thumbnails !== undefined);
         this.todaysVideos = this.allVideos.filter(video => video.snippet.publishedAt.startsWith(new Date().toISOString().substring(0, 10)));
         this.olderVideos =  this.allVideos.filter(video => !video.snippet.publishedAt.startsWith(new Date().toISOString().substring(0, 10)));
     }

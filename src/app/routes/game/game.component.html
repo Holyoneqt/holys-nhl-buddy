@@ -1,0 +1,87 @@
+<app-loading *ngIf="loading | async; else statsContainer"></app-loading>
+<ng-template #statsContainer>
+    <div style="padding: 16px 0;">
+        <button class="button-back" mat-flat-button (click)="location.back()" color="accent">Back to Scores</button>
+    </div>
+    <mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Stats">
+            <div class="flex-container">
+                <div style="padding: 16px 0;">
+                    <img src="{{ 'assets/teams/' + response.gameData.teams.away.id + '.gif' }}" style="height: 40px;" />
+                </div>
+                <div style="padding: 16px 0; font-size: 30px;">@</div>
+                <div style="padding: 16px 0;">
+                    <img src="{{ 'assets/teams/' + response.gameData.teams.home.id + '.gif' }}" style="height: 40px;" />
+                </div>
+
+                <!-- Stats -->
+                <ng-container *ngFor="let stat of gameStats">
+                    <div>
+                        {{ stat.away }}
+                    </div>
+                    <div class="hnb-subheader">
+                        {{ stat.name }}
+                    </div>
+                    <div>
+                        {{ stat.home }}
+                    </div>
+                </ng-container>
+
+                <!-- Per period -->
+                <ng-container *ngFor="let period of response.liveData.linescore.periods">
+                    <div class="full-row">
+                        <p class="hnb-header">{{ period.ordinalNum }} Period</p>
+                    </div>
+                    <div>{{ period.away.goals }}</div>
+                    <div class="hnb-subheader">Goals</div>
+                    <div>{{ period.home.goals }}</div>
+                    <div>{{ period.away.shotsOnGoal }}</div>
+                    <div class="hnb-subheader">Shots</div>
+                    <div>{{ period.home.shotsOnGoal }}</div>
+                </ng-container>
+            </div>
+        </mat-tab>
+        <mat-tab label="Scoring">
+            <div class="score-card" *ngFor="let scoring of scorings">
+                <div class="score-card--logo">
+                    <img src="{{ 'assets/teams/' + scoring.teamId + '.gif' }}" />
+                </div>
+                <div class="score-card--metadata">
+                        <p class="hnb-header">{{ scoring.overallScore }}</p>
+                        <p class="hnb-subheader" style="font-size: 12px;">{{ scoring.time }}</p>
+                </div>
+                <div class="score-card--scorer">
+                        <p class="hnb-header">{{ scoring.scorer }}</p>
+                        <p class="hnb-subheader" style="font-size: 12px;">
+                            <span *ngFor="let assist of scoring.assists">{{ assist }} </span>
+                        </p>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="3 Stars">
+            <div class="flex-container">
+                <div style="flex: 1 0 30%">
+                    <mat-icon>star</mat-icon>
+                </div>
+                <div style="flex: 1 0 70%; font-size: 22px;">
+                    {{ response.liveData.decisions.firstStar.fullName }}
+                </div>
+                <div style="flex: 1 0 30%">
+                    <mat-icon>star</mat-icon>
+                    <mat-icon>star</mat-icon>
+                </div>
+                <div style="flex: 1 0 70%; font-size: 22px;">
+                    {{ response.liveData.decisions.secondStar.fullName }}
+                </div>
+                <div style="flex: 1 0 30%">
+                    <mat-icon>star</mat-icon>
+                    <mat-icon>star</mat-icon>
+                    <mat-icon>star</mat-icon>
+                </div>
+                <div style="flex: 1 0 70%; font-size: 22px;">
+                    {{ response.liveData.decisions.thirdStar.fullName }}
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</ng-template>
