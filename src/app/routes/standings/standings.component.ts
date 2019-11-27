@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
+import { NhlApiRecord, NhlApiTeamRecord } from 'src/app/models/api/nhl.api.model';
 import { NhlApiService } from 'src/app/services/api/nhl.api.service';
 
 interface StandingsGroup {
@@ -28,7 +29,7 @@ export class StandingsComponent implements OnInit {
 
     public standingsDisplayType: 'divisions' | 'conferences' | 'league' = 'divisions';
 
-    private standingsData: NhlApi.Record.Record[];
+    private standingsData: NhlApiRecord[];
     public standingsDisplayData: StandingsGroup[] = [];
 
     constructor(private nhlApi: NhlApiService) { }
@@ -89,7 +90,7 @@ export class StandingsComponent implements OnInit {
         console.log(this.standingsDisplayData);
     }
 
-    private mapTeam(team: NhlApi.Record.TeamRecord): StandingsGroupTeam {
+    private mapTeam(team: NhlApiTeamRecord): StandingsGroupTeam {
         return {
             id: team.team.id.toString(),
             name: team.team.name,

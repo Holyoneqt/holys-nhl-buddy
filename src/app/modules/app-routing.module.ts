@@ -5,6 +5,7 @@ import { GameComponent } from '../routes/game/game.component';
 import { HomeComponent } from '../routes/home/home.component';
 import { ScoresComponent } from '../routes/scores/scores.component';
 import { StandingsComponent } from '../routes/standings/standings.component';
+import { StatsComponent } from '../routes/stats/stats.component';
 import { HighlightsComponent } from './../routes/highlights/highlights.component';
 
 
@@ -33,6 +34,10 @@ const routes: Routes = [
     {
         path: 'standings',
         component: StandingsComponent,
+    },
+    {
+        path: 'stats',
+        component: StatsComponent,
     },
 ];
 

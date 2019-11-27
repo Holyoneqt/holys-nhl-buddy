@@ -31,14 +31,14 @@ export class ScoresComponent implements OnInit {
     }
 
     public async watchHighlight(game: any): Promise<void> {
-        const teams = (await this.nhlApi.getTeams(game.teams.away.team.id.toString(), game.teams.home.team.id.toString())).teams;
+        const teams = (await this.nhlApi.getTeams({ teams: [game.teams.away.team.id.toString(), game.teams.home.team.id.toString()] })).teams;
         const highlights = await this.youtubeApi.getAllVideos();
-        
-        const highlightVideo = highlights.items.find(video => 
+
+        const highlightVideo = highlights.items.find(video =>
             video.snippet.title.includes(teams[0].teamName) &&
             video.snippet.title.includes(teams[1].teamName)
         );
-        
+
         window.open(`https://www.youtube.com/watch?v=${highlightVideo.snippet.resourceId.videoId}`, '_blank');
     }
 

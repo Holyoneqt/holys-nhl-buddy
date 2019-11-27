@@ -13,6 +13,7 @@ import { HighlightsComponent } from './routes/highlights/highlights.component';
 import { HomeComponent } from './routes/home/home.component';
 import { ScoresComponent } from './routes/scores/scores.component';
 import { StandingsComponent } from './routes/standings/standings.component';
+import { StatsComponent } from './routes/stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { StandingsComponent } from './routes/standings/standings.component';
     GameComponent,
     HighlightsComponent,
     StandingsComponent,
+    StatsComponent,
   ],
   imports: [
     BrowserModule,
