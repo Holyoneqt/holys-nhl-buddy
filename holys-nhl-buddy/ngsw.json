@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1570798477699,
+  "timestamp": 1574842232473,
   "index": "https://holyoneqt.github.io/holys-nhl-buddy/index.html",
   "assetGroups": [
     {
@@ -10,8 +10,8 @@
       "urls": [
         "https://holyoneqt.github.io/holys-nhl-buddy/favicon.ico",
         "https://holyoneqt.github.io/holys-nhl-buddy/index.html",
-        "https://holyoneqt.github.io/holys-nhl-buddy/main-es2015.8e26b31a642cca0236eb.js",
-        "https://holyoneqt.github.io/holys-nhl-buddy/main-es5.8e26b31a642cca0236eb.js",
+        "https://holyoneqt.github.io/holys-nhl-buddy/main-es2015.82340a2cc9407d11c799.js",
+        "https://holyoneqt.github.io/holys-nhl-buddy/main-es5.82340a2cc9407d11c799.js",
         "https://holyoneqt.github.io/holys-nhl-buddy/manifest.webmanifest",
         "https://holyoneqt.github.io/holys-nhl-buddy/polyfills-es2015.d3e61f0dd2b58e518eca.js",
         "https://holyoneqt.github.io/holys-nhl-buddy/polyfills-es5.517f1d5415025b3e9b1a.js",
@@ -115,9 +115,9 @@
     "https://holyoneqt.github.io/holys-nhl-buddy/assets/teams/8.gif": "beeb5d3fe7aea2077f4586889df2fbed9908c369",
     "https://holyoneqt.github.io/holys-nhl-buddy/assets/teams/9.gif": "00b374a988da759927b6cc3b774d2bbf4eef029a",
     "https://holyoneqt.github.io/holys-nhl-buddy/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "https://holyoneqt.github.io/holys-nhl-buddy/index.html": "47164a211d885e80a34c97b22d49fdd8a4266091",
-    "https://holyoneqt.github.io/holys-nhl-buddy/main-es2015.8e26b31a642cca0236eb.js": "f125ac7e8cd041e5fc0295c567d59dd11568e657",
-    "https://holyoneqt.github.io/holys-nhl-buddy/main-es5.8e26b31a642cca0236eb.js": "1368e4759e3a64a1d92f65d2c32cec87409b7c37",
+    "https://holyoneqt.github.io/holys-nhl-buddy/index.html": "d0c8443eb416a124348972b34aa9e9f321724dd0",
+    "https://holyoneqt.github.io/holys-nhl-buddy/main-es2015.82340a2cc9407d11c799.js": "87132cc8b1ff6e5d1f382a7fa95ca722fb1dc9ca",
+    "https://holyoneqt.github.io/holys-nhl-buddy/main-es5.82340a2cc9407d11c799.js": "2e6dd4a35cc2230e0b614257338c5b8303257dcc",
     "https://holyoneqt.github.io/holys-nhl-buddy/manifest.webmanifest": "ada10eb024fc8fdb9a29a5f669a81c501308c1a3",
     "https://holyoneqt.github.io/holys-nhl-buddy/polyfills-es2015.d3e61f0dd2b58e518eca.js": "e2f28c3743afd2899e140ad831df9675c233c02b",
     "https://holyoneqt.github.io/holys-nhl-buddy/polyfills-es5.517f1d5415025b3e9b1a.js": "bc55c457c97924a880c8c5bee5337b8d12a7d7d8",
