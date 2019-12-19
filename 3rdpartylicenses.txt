@@ -107,6 +107,8 @@ THE SOFTWARE.
 
 @angular/material/sidenav
 
+@angular/material/table
+
 @angular/material/tabs
 
 @angular/material/toolbar
