@@ -1,0 +1,28 @@
+table {
+    width: 100%;
+}
+
+tr.mat-header-row {
+    display: contents;
+}
+
+th.mat-header-cell, th.mat-header-cell,
+td.mat-cell, td.mat-cell {
+    padding: 4px !important;
+    text-align: center;
+}
+
+.mat-cell:nth-child(1) {
+    font-size: 12px;
+}
+
+.mat-cell:nth-child(2), .mat-cell:nth-child(4), .mat-cell:nth-child(6),
+.mat-cell:nth-child(8), .mat-cell:nth-child(10) {
+    background-color: rgba(0,0,0,.05);
+}
+
+.team-logo {
+    height: 20px;
+    float: left;
+    padding: 4px 0;
+}

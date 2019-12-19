@@ -1,8 +1,3 @@
-import { Injectable } from '@angular/core';
-
-@Injectable({
-    providedIn: 'root'
-})
 export class ApiService {
 
     constructor() {
@@ -10,7 +5,7 @@ export class ApiService {
 
     protected get<T>(url: string): Promise<T> {
         console.log('GET', url);
-        return fetch(url, {mode: 'cors'})
+        return fetch(url)
             .then(response => response.json());
     }
 

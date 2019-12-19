@@ -18,7 +18,7 @@ export interface GetTeamOptions {
     providedIn: 'root'
 })
 export class NhlApiService extends ApiService {
-  
+
     private readonly API_URL = 'https://statsapi.web.nhl.com/api/v1';
 
     private readonly STANDINGS = `${this.API_URL}/standings`;
@@ -66,9 +66,18 @@ export class NhlApiService extends ApiService {
         return super.get(`${this.SCHEDULE}?startDate=${start}&endDate=${end}`);
     }
 
-    public async getPlayerStats(): Promise<NhlApiPlayerStat> {
+    public async getPlayerStats(): Promise<NhlApiPlayerStat[]> {
         const currentSeasonId = (await this.getCurrentSeasonInfo()).seasonId;
-        return (await super.get<any>(`https://api.nhle.com/stats/rest/skaters?isAggregate=false&reportType=basic&isGame=false&reportName=skatersummary&sort=[{%22property%22:%22points%22,%22direction%22:%22DESC%22},{%22property%22:%22goals%22,%22direction%22:%22DESC%22},{%22property%22:%22assists%22,%22direction%22:%22DESC%22}]&cayenneExp=leagueId=133%20and%20gameTypeId=2%20and%20seasonId%3E=20192020%20and%20seasonId%3C=20192020`)).data;
+        return (await super.get<any>(
+            `https://cors-anywhere.herokuapp.com/` + 
+            `https://api.nhle.com/stats/rest/en/skater/summary` +
+            `?isAggregate=false` + 
+            `&isGame=false` +
+            `&start=0` +
+            `&limit=50` +
+            `&sort=[{"property":"points","direction":"DESC"},{"property":"goals","direction":"DESC"},{"property":"assists","direction":"DESC"}]` +
+            `&factCayenneExp=gamesPlayed>=1&cayenneExp=gameTypeId=2 and seasonId<=${currentSeasonId} and seasonId>=${currentSeasonId}`
+        )).data;
     }
 
 }
