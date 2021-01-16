@@ -8,7 +8,7 @@ import { ApiService } from './api.service';
 })
 export class YoutubeApiService extends ApiService {
 
-    private readonly apiKey = 'AIzaSyBkuDsvSfgkLRziqy0lAYOkbOSHKzhiDF0';
+    private readonly apiKey = 'AIzaSyC42oE-BW6zc2xJQl9KsgP9vZAlgUJa-YM';
     private readonly url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=PL1NbHSfosBuHInmjsLcBuqeSV256FqlOO&key=${this.apiKey}`;
 
     constructor() {

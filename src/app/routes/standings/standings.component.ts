@@ -97,7 +97,7 @@ export class StandingsComponent implements OnInit {
             record: `${team.leagueRecord.wins}-${team.leagueRecord.losses}-${team.leagueRecord.ot}`,
             gamesPlayed: team.gamesPlayed,
             plusMinus: team.goalsScored - team.goalsAgainst,
-            streak: team.streak.streakCode,
+            streak: team.streak ? team.streak.streakCode : '-',
             points: team.points,
         };
     }
